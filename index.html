@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>🌈爱背单词</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" >
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    
+    <!-- wilddog sections -->
+    
+
+
+
+    
+
+    <!-- Custom styles for this template -->
+    <style type="text/css">
+        body {
+            padding-top: 5rem;
+        }
+
+        .starter-template {
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+    
+<body>
+
+  
+  
+   
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#"><i class="fab fa-adn" style="margin-right: 10px;"></i>爱背单词</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#top_nav" aria-controls="top_nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+        <div class="collapse navbar-collapse" id="top_nav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" id="menu_btn" href="#">目录<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="user_dict_btn">单词本</a>
+                </li>
+                <!--
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+                -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <a class="dropdown-item" href="#">设置</a>
+                        <a class="dropdown-item" href="#">使用说明<span class="secondary" style="color:darkgrey;padding-left: 0.5rem;font-size: 10pt">(v1.1.2)</span></a>
+                        <a class="dropdown-item" href="#">联系作者</a>
+                    </div>
+                </li>
+                
+            </ul>
+            <div class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="effort努力" aria-label="newWord" id="directly_add_input">
+                <button class="btn btn-outline-success my-2 my-sm-0" id="directly_add_word_btn">加入单词本</button>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav id="bottom_nav" class="navbar navbar-expand-md navbar-dark bg-dark fixed-bottom nav-right pageview">
+        <div style="color: white;padding-right: 20px;" id="bottom_left_text">
+    Round 12
+  </div>
+       <div >
+       <button type="button" class="btn btn-outline-primary" id="skip_button">跳过</button>
+      
+      <button type="button" class="btn btn-primary disabled" id="finish_btn">检查</button>
+       
+       </div>
+        
+    </nav>
+    
+     <nav id="dict_nav" class="navbar navbar-expand-md navbar-dark bg-dark fixed-bottom nav-right pageview">
+        <div style="color: white;padding-right: 5px;">
+            第 <span id="dict_nav_page_text">1</span> 页
+  </div>
+     <div style="color: white;padding-right: 10px;" id="dict_nav_page_text">
+    /
+  </div>
+     <div style="color: white;padding-right: 20px;" id="dict_nav_page_text">
+    共 <span id="dict_nav_page_text">1</span> 页
+  </div>
+      
+       <div >
+       <button type="button" class="btn btn-outline-primary disabled" id="dict_up_button"><i class="fas fa-angle-up" style="padding-right: 5px"></i>上一页</button>
+      
+      <button type="button" class="btn btn-primary" id="dict_down_button"><i class="fas fa-angle-down" style="padding-right: 5px"></i>下一页</button>
+       
+       </div>
+        
+    </nav>
+    
+    
+<div id="alert_div"></div>
+        
+
+   
+   
+   
+   
+   
+    <div  class="container">
+        <div id="menu" class="pageview">
+        <div class="starter-template">
+            <h1>欢迎您</h1>
+            <p class="lead">想要自定义词库？和朋友一起玩单词游戏？<br> <span class="second">快用爱背单词</span></p>
+            <div id="user_label">
+            <i class="far fa-user" style="padding-right: 5px;"></i><span>小旺旺</span>
+            </div>
+        </div>
+           
+        <div class="container">
+           
+        <div class="row">
+          <div class="col col-md-4 col-sm-12 col-12" id="login_sign_menu_btn">
+            <div class="input-group mb-3 ">
+            <button type="button" class="btn btn-primary btn-block" id="loginWindowBtn">登录或注册</button>
+            </div>
+            </div>
+           <div class="col col-md-4 col-sm-12 col-12">
+            <div class="input-group mb-3 ">
+            <button type="button" class="btn btn-info btn-block" id="newPractice">单词词义默写</button>
+            </div>
+            </div>
+            
+        <div class="col col-md-4 col-sm-12 col-12">
+            <div class="input-group mb-3 ">
+            <button type="button" class="btn btn-outline-success btn-block" data-toggle="modal" data-target="#newGame">多人单词房</button>
+            </div>
+            </div>
+        
+        <div class="col col-md-4 col-sm-12 col-12">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="输入多人单词房号" aria-label="Enter Room Number" aria-describedby="button-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2" data-toggle="modal" data-target="#joinGame">加入！</button>
+                
+                </div>  
+                
+            <!-- Modal new practice-->
+            <div class="modal fade" id="practiceModal" tabindex="-1" role="dialog" aria-labelledby="practiceModal" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="practiceModalLabel">单词默写</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    请稍等.. <br>
+                    <small>将在 <span id="practice_sec_left">5</span> 秒后启动</small>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- Modal end -->    
+                
+                
+            <!-- Modal new game-->
+            <div class="modal fade" id="newGame" tabindex="-1" role="dialog" aria-labelledby="newGame" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New Game</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Room Number: 1234 <br>
+                    <small>We are waiting for others to join in...</small>
+                  </div>
+                  <div class="modal-footer">
+                   <button type="button" class="btn btn-primary" id="startNewGame" data-dismiss="modal">Start!</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- Modal end -->
+          
+                
+        <!-- Modal new game-->
+            <div class="modal fade" id="joinGame" tabindex="-1" role="dialog" aria-labelledby="joinGame" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Join Now</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Wait <br>
+                    <small>Please wait for several minutes..</small>
+                  </div>
+                  <div class="modal-footer">
+                   <button type="button" class="btn btn-primary disabled">Start!</button>
+ 
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- Modal end -->  
+          
+
+        
+                 
+                        
+                                      
+  </div>
+</div>
+          </div>
+           
+           </div>
+            
+        </div>
+
+
+<!-- user dictionary -->
+ <div id="user_dict" class="pageview ">
+ <ul class="list-group" style="font-family: 'Raleway', serif;" id="word_list_contents">
+     <li class="list-group-item active">Cras justo odio</li>
+     <li class="list-group-item">Dapibus ac facilisis in</li>
+     <li class="list-group-item">Morbi leo risus</li>
+     <li class="list-group-item">Porta ac consectetur ac</li>
+     <li class="list-group-item">Vestibulum at eros</li>
+     <li class="list-group-item">Diifdegdsass</li>
+</ul>
+<div style='height:15rem;'></div>
+</div>
+  
+       
+        
+<!-- practice -->         
+           
+        <div id="practice" class="pageview">
+        
+    <div class="container">
+    
+    <div class="row" id="practice_list">
+    
+<!-- backup card
+
+<div class="col col-md-4 col-sm-6 col-xs-12 col-12"> 
+    <div class="card bg-light mb-3" style="max-width: 20rem;">
+  
+  <div class="card-body">
+    <h5 class="card-title">Word</h5>
+    <input type="text" class="form-control" id="meaning" aria-describedby="emailHelp" placeholder="meaning?">
+  </div>
+  <ul class="list-group list-group-flush result">
+    <li class="list-group-item">正确答案 Cras justo odio</li>
+    <li class="list-group-item">你的答案 Dapibus ac facilisis in</li>
+    <li class="list-group-item peer_answer">他的答案 Vestibulum at eros</li>
+  </ul>
+</div>
+</div>  
+     
+-->
+            
+                      
+            
+        </div>
+   
+   </div>
+   
+        </div>
+
+
+<!-- practice end-->      
+         
+<!-- multiplayer -->  
+        <div id="game" class="pageview">
+        
+    <div class="container">
+    
+    <div class="row">
+    
+<div class="col col-md-4 col-sm-6 col-xs-12 col-12">    
+<!-- card start -->
+    <div class="card bg-light mb-3" style="max-width: 20rem;">
+  <div class="card-header">Header</div>
+  <div class="card-body">
+    <h5 class="card-title">Word</h5>
+    <input type="text" class="form-control" id="meaning" aria-describedby="emailHelp" placeholder="意思是？">
+    <p class="card-text d-none">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </div>
+</div>
+</div>  
+<!-- card end -->       
+
+<div class="col col-md-4 col-sm-6 col-xs-12 col-12">
+<!-- card start -->
+    <div class="card bg-light mb-3" style="max-width: 20rem;">
+  <div class="card-header">Header</div>
+  <div class="card-body">
+    <h5 class="card-title">Light card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </div>
+</div>
+<!-- card end --> 
+        </div>
+                
+<div class="col col-md-4 col-sm-6 col-xs-12 col-12">
+<!-- card start -->
+    <div class="card bg-light mb-3" style="max-width: 20rem;">
+  <div class="card-header">Header</div>
+  <div class="card-body">
+    <h5 class="card-title">Light card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </div>
+</div>
+<!-- card end -->  
+        </div>   
+                      
+            
+        </div>
+   
+   </div>
+   
+        </div>
+
+<!-- multiplayer end --> 
+   
+   
+   
+   
+   <!-- global area -->
+   <!-- Modal Warning -->
+        <div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="warningModalLabel">注意</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="warningModalText">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="warning_cancel">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="warning_ok">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-labelledby="settingModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="settingModalLabel">注意</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="settingModalText">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="setting_cancel">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="setting_ok">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+       
+        <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              
+              <div class="modal-body" id="loginModalText">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+               <!-- content here -->
+               <div id="login_part">
+                <div class="form-signin">
+                  <img class="mb-4" src="/docs/4.2/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+                    <h1 class="h3 mb-3 font-weight-normal"><i class="fab fa-adn" style="margin-right: 10px;"></i>请登录</h1>
+                  <label for="username_login" class="sr-only">登录账号</label>
+                  <input type="text" id="username_login" class="form-control" placeholder="登录账号" required="" autofocus="" style="margin-bottom: 5px;">
+                  <label for="inputPassword_login" class="sr-only">密码</label>
+                  <input type="password" id="inputPassword_login" class="form-control" placeholder="密码" required="" style="margin-bottom: 5px;">
+                  <div class="checkbox mb-3">
+                    <label>
+                      <input type="checkbox" value="remember-me"> 记住密码
+                    </label>
+                  </div>
+                  <button class="btn btn-primary btn-block" id="login_btn">登录</button>
+                  <button class="btn btn-success btn-block" id="go_to_reg_btn">注册新用户</button>
+                  
+                 
+                  <div style="margin-top: 10px;font-size: 16px;color:darkgray;" class="why_login">
+                  <span class="fas fa-question-circle"></span>为什么需要登录
+                    </div>
+                    <div class="rewards_of_login"><span style="font-size: 14px;color: gray"><i class="fas fa-check-square" style="margin-right: 5px"></i>可上传单词excel<br/><i class="fas fa-check-square" style="margin-right: 5px"></i>云端单词本（记录永不丢失）<br/><i class="fas fa-check-square" style="margin-right: 5px"></i>跨平台同步学习进度</span></div>
+                  <p class="mt-5 mb-3 text-muted">© 2019-2020</p>
+                </div>
+                </div>
+                
+                <div id="signin_part">
+                <div class="form-signin">
+                  <img class="mb-4" src="/docs/4.2/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+                    <h1 class="h3 mb-3 font-weight-normal"><i class="fab fa-adn" style="margin-right: 10px;"></i>欢迎注册</h1>
+                  <label for="username_sign" class="sr-only">注册账号</label>
+                  <input type="text" id="username_sign" class="form-control" placeholder="用于登录的账号" required="required" autofocus="" style="margin-bottom: 5px;">
+                  <label for="inputPassword_sign" class="sr-only">密码</label>
+                  <input type="password" id="inputPassword_sign" class="form-control" placeholder="不小于8位的密码" required="required" style="margin-bottom: 5px;">
+                  <input type="password" id="inputPassword2" class="form-control" placeholder="再输入一遍密码" required="" style="margin-bottom: 5px;">
+                  <div class="checkbox mb-3">
+                   <div style="font-size: 14px;color:red;" id="signin_error">错误：账号长度太短</div>
+                    <label>
+                      <input type="checkbox" value="remember-me" checked="checked" style="margin-top: 10px;"> <span style="font-size: 14px;color: blue">同意用户使用协议</span>
+                    </label>
+                  </div>
+                  <button class="btn btn-success btn-block" id="signin_btn" >确认注册</button>
+                  <button class="btn btn-outline-primary btn-block" id="go_to_login_btn" >返回登录</button>
+                  
+                 
+                  <div style="margin-top: 10px;font-size: 16px;color:darkgray;" class="why_login">
+                  <span class="fas fa-question-circle"></span>为什么需要注册
+                    </div>
+                    <div class="rewards_of_login"><span style="font-size: 14px;color: gray"><i class="fas fa-check-square" style="margin-right: 5px"></i>可上传单词excel<br/><i class="fas fa-check-square" style="margin-right: 5px"></i>云端单词本（记录永不丢失）<br/><i class="fas fa-check-square" style="margin-right: 5px"></i>跨平台同步学习进度</span></div>
+                  <p class="mt-5 mb-3 text-muted">© 2019-2020</p>
+                </div>
+                </div>
+                <!-- content ends -->
+              </div>
+              
+            </div>
+          </div>
+        </div>
+   
+   
+    
+    </div>
+    
+
+    
+
+    
+    
+    <!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+
+    <!-- Wilddog -->
+    <script src='https://cdn.wilddog.com/js/client/current/wilddog.js'></script>
+    
+
+    <!-- Wildchat -->
+    <link rel='stylesheet' href='https://cdn.wilddog.com/app/wildchat/0.6.0/wildchat.min.css' />
+    <script src='https://cdn.wilddog.com/app/wildchat/0.6.0/wildchat.min.js'></script>
+
+
+
+<!-- my code here -->
+
+<script>
+    
+    //globals
+    word_data = undefined;
+    loop_check_filled = undefined;
+    number_of_test = 10
+    GET_WORD_URL = "https://voctest--songlinhou.repl.co/get_words?number=6"
+    practice_rounds = 0
+    user_dictionary = undefined;
+    user_states = undefined;
+    
+    
+    // Initialize Firebase
+    /*
+      const config = {
+        authDomain: "loverecipes.wilddog.com",
+        syncURL: "https://loverecipes.wilddogio.com"
+      };
+    
+        wilddog.initializeApp(config);
+    */
+    
+    var wordRef = new Wilddog("https://loverecipes.wilddogio.com/voc_app"); 
+
+
+    
+    /*
+    // Old:
+      const date = snapshot.get('created_at');
+      // New:
+      const timestamp = snapshot.get('created_at');
+      const date = timestamp.toDate();
+    */
+    
+    
+    lean_cloud_get = function(route){
+        var appId = "S5KA3LxWxrgyz0VN6ghbAHXV-gzGzoHsz";
+        var key = "nRjAAmtjBPlswOwtXwUdxy0x";
+        var request_url = 'https://' + appId.substr(0,8) +'.api.lncld.net/1.1' + route;
+        promise = $.ajax({
+            type: 'GET',
+            url: request_url,
+            headers:{'X-LC-Id':appId,'X-LC-Key':key,"Content-Type":"text/plain;charset=UTF-8"},
+        });
+        return promise;
+    }
+    
+    lean_cloud_post = function(route,data){
+        var appId = "S5KA3LxWxrgyz0VN6ghbAHXV-gzGzoHsz";
+        var key = "nRjAAmtjBPlswOwtXwUdxy0x";
+        var request_url = 'https://' + appId.substr(0,8) +'.api.lncld.net/1.1' + route;
+        promise = $.ajax({
+            type: 'POST',
+            url: request_url,
+            headers:{'X-LC-Id':appId,'X-LC-Key':key,"Content-Type":"application/json;charset=UTF-8"},
+            data:JSON.stringify(data),
+            dataType: "json"
+        });
+        return promise;
+    }
+    
+     lean_cloud_put = function(route,data){
+        var appId = "S5KA3LxWxrgyz0VN6ghbAHXV-gzGzoHsz";
+        var key = "nRjAAmtjBPlswOwtXwUdxy0x";
+        var request_url = 'https://' + appId.substr(0,8) +'.api.lncld.net/1.1' + route;
+        promise = $.ajax({
+            type: 'PUT',
+            url: request_url,
+            headers:{'X-LC-Id':appId,'X-LC-Key':key,"Content-Type":"application/json;charset=UTF-8"},
+            data:JSON.stringify(data),
+            dataType: "json"
+        });
+        return promise;
+    }
+    
+    
+    //user login/signup
+     
+    lean_login = function(username,password){
+        return lean_cloud_get("/login?username="+username+"&password="+password);
+    }
+    
+    lean_signup = function(username,password){
+        data = {username:username,password:password};
+        return lean_cloud_post("/users",data);
+    }
+    
+    update_user_login_state = function(data){
+        $("#loginModal").modal("hide");
+        $("#user_label span").html(username);
+        $("#user_label").fadeIn("slow");
+        $("#login_sign_menu_btn").hide();
+        user_states = data;
+    }
+    
+    
+    
+    /*success: function(data, status, xhr){
+               console.log(data);
+            },
+            error: function(xhr, type){
+                //window.location.reload();
+                console.log(xhr.responseJSON);
+            }
+    */
+    directly_add_word = function(){
+        content = $("#directly_add_input").val();
+        data = split_chinese_english(content);
+        console.log(data);
+        return data;
+    }
+    
+    
+    save_word = function(word,meaning){
+        console.log("save:" + word + ":" + meaning);
+
+        Cookies.set("<#>"+word, meaning);
+        console.log("current user_words=");
+        console.log(Cookies.get()); //not function yet
+        $("#directly_add_word_btn").addClass("disabled");
+        //using firebase
+        data = {};
+        data[word] = meaning;
+        wordRef.set(data);
+        console.log("wilddog saved");
+    }
+    
+    split_chinese_english = function(content){  
+        cnStr = "";
+        enStr = "";
+        for(var i=0;i<content.length;i++){
+            if(content.charCodeAt(i)>255){
+                cnStr += content[i];
+            }
+            else{
+                enStr += content[i];
+            }
+        }
+        return {'cn':cnStr,'en':enStr}
+    }
+    
+    show_confirm_window = function(title,information,cancel,ok,cancel_func,ok_func){
+        $("#warningModalLabel").html(title);
+        $("#warningModalText").html(information);
+        $("#warning_cancel").html(cancel);
+        $("#warning_ok").html(ok);
+        $("#warningModal").modal('show');
+        $("#warning_ok").on("click",function(){
+            if(ok_func){
+                ok_func();
+            }
+            $("#warningModal").modal('hide');
+        });
+        $("#warning_cancel").on("click",function(){
+            if(cancel_func){
+                cancel_func();
+            }
+            $("#warningModal").modal('hide');
+        });
+    }
+    
+    generate_card_html = function(word,correct_ans,your_ans,peer_ans,index,saved){
+        save_status_html = "far fa-bookmark"
+        if(saved){
+            save_status_html = "fas fa-bookmark"
+        }
+        
+        word = to_literal_str(word);
+        correct_ans = to_literal_str(correct_ans);
+        
+        //style="font-family: 'Font Name', serif;"
+        practice_card_html = '<!-- card start -->'+
+        '<div class="col col-md-4 col-sm-6 col-xs-12 col-12">'+ 
+        '<div class="card bg-light mb-3" style="max-width: 20rem;">'+
+        '<div class="card-body">'+
+        '<h5 class="card-title">' + '<a href="#"><i class="' + save_status_html + '" style="margin-right:10px;" id="save_word_btn_'+ index + '" onclick="event.preventDefault();save_word(\''+ word+'\',\''+ correct_ans +'\');"></i></a>' + '<span style="font-family: \'' + "Raleway" + '\', serif;">'+ word + '</span></h5>' +
+        '<input type="text" class="form-control ans_input" id="ans_input_'+index+'" aria-describedby="input word meaning" placeholder="意思是？">' +
+        '</div>' +
+        '<ul class="list-group list-group-flush result">' +
+        '<li class="list-group-item word_ans d-none">正确答案 ' + correct_ans + '</li>';
+        if (your_ans){
+            practice_card_html +='<li class="list-group-item your_ans">你的答案 ' + your_ans +'</li>';
+        }
+        else{
+            practice_card_html +='<li class="list-group-item d-none your_ans">你的答案 ' + your_ans +'</li>';
+        }
+        if (peer_ans){
+            practice_card_html +='<li class="list-group-item peer_answer">他的答案 '+ peer_ans +'</li>';
+        }
+        else{
+            practice_card_html +='<li class="list-group-item peer_answer d-none">他的答案 '+ peer_ans +'</li>';
+        }
+        practice_card_html +='</ul></div></div><!-- card end -->'
+        return practice_card_html
+    }
+    
+    check_all_inputs = function(){
+        filled = true;
+        $(".ans_input").each(function(index,ans_input){
+            value = ans_input.value;
+            //console.log(value);
+            if (value.trim().length == 0){
+                //console.log("input " + index + " is not filled");
+                filled &= false;
+            }
+            else{
+                filled &= true;
+            }
+            
+        });
+        if (filled){
+            //console.log("filled");
+            $('#finish_btn').removeClass('disabled');
+        }
+        else{
+            $('#finish_btn').addClass('disabled');
+        }
+    }
+    
+    first_time_show_word_list = function(){
+        $("#practiceModal").modal('show');
+        time_left = 5
+        time_estimated = setInterval(function(){
+            if(time_left <= 0){
+                time_left = 0;
+            }
+            else{
+                time_left -= 1;
+            }
+            $("#practice_sec_left").html(""+time_left);
+        },1000);
+        
+        //https://vocabcardgame--songlinhou.repl.co/get_word
+        try_fetch_word = setInterval(function(){
+            $.ajax({
+                type: 'POST',
+                url: GET_WORD_URL,
+                dataType: 'jsonp',
+                jsonp:'callback',
+                jsonpCallback:"callback",
+                success: function(data){
+                    console.log(data);
+                    clearInterval(try_fetch_word);
+                    word_data = data;
+                    $("#practiceModal").modal('hide');
+                    console.log("hide");
+                    clearInterval(time_estimated);
+                    practice_rounds ++;
+                    $('#bottom_left_text').html("列表 " + practice_rounds);
+                    time_left = 5;
+                    //back to top
+                    $("html, body").animate({ scrollTop: 0 }, "slow");
+                },
+                error:function(){
+                    console.log('retrying...');
+                }
+            });
+        },1000);
+    }
+    
+    to_literal_str = function(str){
+        str = str.replace(/\n/g, '\\n').replace(/\'/g, "\\'").replace(/\"/g, '\\"');
+        return str;
+    }
+    
+    show_cookie_word_list = function(){
+        console.log("show_cookie_word_list");
+        all_cookie_data = Cookies.get();
+        html = "";
+        
+        $.each(all_cookie_data,function(word,meaning){
+            //console.log(word + ":" + meaning);
+            if(word.indexOf("<#>") != 0){
+                //continue;
+            }
+            else{
+                word = word.replace("<#>","");
+                meaning = "<span style='color:grey;font-size:10pt;padding-left:10px'>"+meaning+"</span>";
+                html +='<li class="list-group-item">'+ word + meaning +'</li>';
+            }
+        });
+        html += "<div style='height:15rem;'></div>";
+        $('#word_list_contents').html(html);
+    }
+    
+    show_firebase_word_list = function(){
+        test_co = firestore.collection("test");
+        test_co.get().then(function(querySnapshot) {
+            
+            querySnapshot.forEach(function(doc) {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
+            });
+            //console.log(querySnapshot[0]);
+        
+    })
+    .catch(function(error) {
+        console.log("Error getting documents: ", error);
+    });
+
+    }
+    
+    show_word_list = function(){
+        try_fetch_word = setInterval(function(){
+        $.ajax({
+            type: 'POST',
+            url: GET_WORD_URL,
+            dataType: 'jsonp',
+            jsonp:'callback',
+            jsonpCallback:"callback",
+            success: function(data){
+                console.log(data);
+                practice_rounds ++;
+                clearInterval(try_fetch_word);
+                word_data = data;
+                card_html = "";
+                index = 0;
+                $.each(data, function(word, meaning) {
+                    console.log(word + ":" + meaning);
+                    card_html += generate_card_html(word,meaning,undefined,undefined,index);
+                    index ++;
+                });
+                card_html += "<div style='height:15rem;'></div>"
+                // animation here
+                $( ".card" ).fadeOut( "slow", function() {
+                    // Animation complete.
+                    $("#practice_list").html(card_html);
+                    $('#finish_btn').html("检查");
+                    $('#finish_btn').addClass("btn-primary");
+                    $('#finish_btn').removeClass("btn-success");
+
+                    
+                    $('#bottom_left_text').html("列表 " + practice_rounds);
+                    loop_check_filled = setInterval(function(){
+                        check_all_inputs();
+                    });
+                    // back to top
+                    $("html, body").animate({ scrollTop: 0 }, "slow");
+                });
+            },
+            error:function(){
+                console.log('error');
+            }
+        });
+        },1000);
+    }
+    
+    fetch_answers = function(){
+        all_user_inputs = [];
+        your_ans_labels = [];
+        $('.ans_input').each(function(index,obj){
+            if ($(obj).is(":hidden")){}
+            else{
+                all_user_inputs.push(obj);
+            }
+        });
+        $('.your_ans').each(function(index,obj){
+            if ($(obj).is(":hidden")){}
+            else{
+                your_ans_labels.push(obj);
+            }
+        });
+        for(i=0;i<all_user_inputs.length;i++){
+            $(your_ans_labels[i]).html("你的答案 "+ all_user_inputs[i].value);
+        }
+    }
+    
+    show_index = function(){
+        //$('.pageview').addClass('d-none');
+        $('.pageview').hide();
+        //$('#user_dict').addClass('d-none');
+        //$('#user_dict').hide();
+        //$('#menu').removeClass('d-none');
+        $('#menu').fadeIn("slow");
+        //$("#game").addClass('d-none');
+        //$("#bottom_nav").addClass("d-none");
+        $("#bottom_nav").fadeOut();
+        $("#bottom_nav").hide(); //bug fix
+        //$("#practice").addClass("d-none");
+        $("#top_nav").collapse("hide");
+        /*
+        if($("#top_nav").hasClass("show")){
+            $("#top_nav").removeClass("show");
+        }
+        */
+    }
+    
+    
+    
+    
+    $(document).ready(function(){
+        console.log("ready");
+        $("#game").hide();
+        $("#practice").hide();
+        $("#bottom_nav").hide();
+        //$('#user_dict').addClass('d-none');
+        $('#user_dict').hide();
+        $("#bottom_nav").hide(); //bug fix
+        $("#dict_nav").hide();
+        $("#user_label").hide();
+        //width = $(document).width() - $("#bottom_left_text").width() - 200;
+        //$("#bottom_left_text").attr("style","color:white;padding-right:"+ width +"px;");
+    });
+    
+    
+    $("#directly_add_word_btn").on("click",function(){
+        if($("#directly_add_word_btn").hasClass("disabled")){
+            return;
+        }
+        data = directly_add_word();
+        $("#top_nav").collapse("hide");
+        save_word(data['en'],data['cn']); //using cookie
+        
+        
+    });
+    
+    $("#menu_btn").on("click",function(){
+        //set highlight of button
+        $('.nav-item').removeClass('active');
+        $('#menu_btn').parent().addClass('active');
+        
+        show_index();
+    });
+    
+    
+    $("#startNewGame").on("click",function(){
+        //$("#menu").addClass('d-none');
+        //$('.pageview').addClass("d-none");
+        $('.pageview').hide();
+        $("#game").removeClass('d-none');
+        
+    });
+    
+   $("#newPractice").on("click",function(){
+        first_time_show_word_list();
+    });
+    
+    $("#practiceModal").on("hidden.bs.modal", function () {
+        // when practiceModal finishes hiding
+        console.log("start trigger");
+        //$('.pageview').addClass("d-none");
+        $('.pageview').hide();
+        //$("#practice").removeClass('d-none');
+        $("#practice").show();
+        //$("#menu").addClass('d-none');
+        $("#bottom_nav").fadeIn("slow");
+        $("#bottom_nav").show(); //bug fix
+        card_html = "";
+        index = 0;
+        $.each(word_data, function(word, meaning) {
+            console.log(word + ":" + meaning);
+            card_html += generate_card_html(word,meaning,undefined,undefined,index);
+            index ++;
+        });
+        card_html += "<div style='height:15rem;'></div>"
+       $("#practice_list").html(card_html);
+        loop_check_filled = setInterval(function(){
+            check_all_inputs();
+        },1000)
+    });
+    
+    $('#skip_button').on("click",function(){
+        if($('#skip_button').hasClass("btn-outline-primary")){
+            $(".word_ans").removeClass("d-none");
+            $(".your_ans").removeClass("d-none");
+            fetch_answers()
+            $('.ans_input').addClass("d-none");
+            $('#skip_button').removeClass("btn-outline-primary");
+            $('#skip_button').addClass("btn-danger");
+            clearInterval(loop_check_filled);
+
+            //$('#finish_btn').removeClass('disabled');
+            //back to top
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+        }
+        else if($('#skip_button').hasClass("btn-danger")){
+            $('#skip_button').addClass("btn-outline-primary");
+            $('#skip_button').removeClass("btn-danger");
+            $('#finish_btn').removeClass('disabled');
+            show_word_list();
+        }
+    });
+    
+    $('#finish_btn').on("click",function(){
+        if($('#finish_btn').hasClass("disabled")){
+           return;
+        }
+        if($('#finish_btn').hasClass("btn-primary")){
+            $(".word_ans").removeClass("d-none");
+            $(".your_ans").removeClass("d-none");
+            fetch_answers()
+            $('.ans_input').addClass("d-none");
+            $('#finish_btn').html("next>>");
+            $('#finish_btn').removeClass("btn-primary");
+            $('#finish_btn').addClass("btn-success");
+            clearInterval(loop_check_filled);
+            //back to top
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+        }
+        else if($('#finish_btn').hasClass("btn-success")){
+            if(!$('#finish_btn').hasClass("disabled"))
+                $("#finish_btn").addClass("disabled");
+            show_word_list();
+        }
+    });
+    
+    $('#user_dict_btn').on("click",function(){
+        show_cookie_word_list();
+        show_dict = function(){
+                $('.nav-item').removeClass('active');
+                $('#user_dict_btn').parent().addClass('active');
+                $('.pageview').hide();
+                $('#user_dict').fadeIn("slow");
+                //$('#dict_nav').faceIn("slow");
+                $("#top_nav").collapse("hide");
+                $("#warningModal").modal('hide');
+                $("#dict_nav").show(); //bug fix
+                console.log('$("#dict_nav").show()');
+        }
+        
+        if($("#practice").is(":visible")){
+            console.log("you are practising now");
+            show_confirm_window("注意","结束词义默写练习并进入单词本吗？","取消","结束",undefined,show_dict);
+            return;
+        }
+        if($("#game").is(":visible")){
+            console.log("you are gaming now");
+            $("#warningModal").modal('show');
+            return;
+        }
+        //console.log("user-dict");
+        //set highlight of button
+        /*
+        $('.nav-item').removeClass('active');
+        $('#user_dict_btn').parent().addClass('active');
+        
+        //$('.pageview').addClass("d-none");
+        $('.pageview').hide();
+        //$('#user_dict').removeClass("d-none");
+        $('#user_dict').fadeIn("slow");
+        //$('#dict_nav').removeClass("d-none");
+        $('#dict_nav').faceIn("slow");
+        $("#dict_nav").show(); //bug fix
+        $("#top_nav").collapse("hide");
+        */
+        show_dict();
+        $("#dict_nav").removeClass("d-none");
+    });
+    
+    $("#loginWindowBtn").on("click",function(){
+        $(".rewards_of_login").hide();
+        $("#loginModal").modal("show");
+        $("#login_part").show();
+        $("#signin_part").hide();
+        $("#signin_error").hide();
+    });
+    
+    $(".why_login").on("click",function(){
+        $(".rewards_of_login").toggle("slow");
+    });
+    
+    $('#go_to_reg_btn').on("click",function(){
+        $(".rewards_of_login").hide();
+        //$("#loginModal").modal("show");
+        $("#login_part").hide();
+        $("#signin_part").fadeIn("slow");
+    });
+    
+     $('#go_to_login_btn').on("click",function(){
+        $(".rewards_of_login").hide();
+        //$("#loginModal").modal("show");
+        $("#signin_part").hide();
+        $("#login_part").fadeIn("slow");
+    });
+    
+    $('#login_btn').on("click",function(){
+        username_correct = false;
+        password_correct = false;
+        
+        username = $("#username_login").val();
+        password = $("#inputPassword_login").val();
+        lean_login(username,password)
+        .done(function(data){
+            console.log("success!",data);
+            $("#loginModal").modal("hide");
+            $("#user_label span").html(username);
+            $("#user_label").fadeIn("slow");
+            $("#login_sign_menu_btn").hide();
+            
+        }).fail(function(err){
+            console.log(err.responseJSON);
+        });
+    
+    });
+    
+    $('#signin_btn').on("click",function(){
+        if($('#signin_btn').hasClass("disabled")){
+            return;
+        }
+        username_correct = false;
+        password_correct = false;
+        
+        username = $("#username_sign").val();
+        password = $("#inputPassword_sign").val();
+        password2 = $("#inputPassword2").val();
+        
+        if(username.trim().length < 4){   
+            $("#signin_error").html("账号长度至少4位");
+            $("#signin_error").fadeIn("slow");
+            return;
+        }
+        if(username.trim() != username){
+            $("#signin_error").html("账号前后不能有空格");
+            $("#signin_error").fadeIn("slow");
+            return;
+        }
+        
+        if(password != password2){
+            // dismatch
+            $("#signin_error").html("两次密码需保持一致");
+            $("#signin_error").fadeIn("slow");
+            return;
+        }
+        if(password.trim() != password){
+            //contain whitespace
+            $("#signin_error").html("密码前后不能有空格");
+            $("#signin_error").fadeIn("slow");
+            return;
+        }
+        if(password.length < 8){
+            //too short
+            $("#signin_error").html("密码长度至少8位");
+            $("#signin_error").fadeIn("slow");
+            return;
+        }
+        $("#signin_btn").addClass("disabled");
+        $("#go_to_login_btn").addClass("disabled");
+        lean_signup(username,password)
+        .done(function(data){
+            console.log("success!",data);
+            //update ui
+            update_user_login_state(data);
+            
+        }).fail(function(err){
+            console.log(err.responseJSON);
+            
+        }).always(function(){
+            $("#signin_btn").removeClass("disabled");
+            $("#go_to_login_btn").removeClass("disabled");
+        });
+    
+    });
+    
+    
+    
+    
+    
+    
+    
+    
+    </script>
+
+</body>
+</html>
