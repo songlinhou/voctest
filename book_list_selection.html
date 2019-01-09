@@ -1,0 +1,144 @@
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" >
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+        <body>
+        
+        <div class="container">
+        <div class="row"><div class="col">
+        <div class="card" style="margin-bottom: 5px;">
+                  <div class="card-header">
+                    推荐词库
+                  </div>
+                  
+                </div>
+         <div class="list-group">
+          <a href="#" class="list-group-item list-group-item-action book_listed" onclick="event.preventDefault();on_select_current_book(this);" bookID="SYS:GRE3000">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">GRE3000词</h5>
+              <small>单词数 3000+</small>
+            </div>
+            <p class="mb-1">为GRE考生准备的最常见的3000难词，去除了四六级中的常见单词，是每一个准备GRE考试的学生都应该反复背诵直至熟练掌握。</p>
+            <small>来自系统词库</small>
+          </a>
+          <!--
+          <a href="#" class="list-group-item list-group-item-action" onclick="event.preventDefault();">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">托福核心词</h5>
+              <small class="text-muted">单词数 1000+</small>
+            </div>
+            <p class="mb-1">涵盖托福复习考试的核心单词。复习托福的考试应该熟练掌握。</p>
+            <small class="text-muted">来自系统词库</small>
+          </a>
+          <a href="#" class="list-group-item list-group-item-action" onclick="event.preventDefault();">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">List group item heading</h5>
+              <small class="text-muted">3 days ago</small>
+            </div>
+            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+            <small class="text-muted">Donec id elit non mi porta.</small>
+          </a>
+          -->
+        </div>
+        
+        <div class="card" style="margin-bottom: 5px;margin-top: 10px;">
+                  <div class="card-header">
+                    用户词库
+                  </div>
+                  
+                </div>
+                
+                <div class="list-group">
+          <a href="#" class="list-group-item list-group-item-action book_listed" onclick="event.preventDefault();on_select_current_book(this);" bookID="SYS:USER">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">收藏的单词</h5>
+              <small id="user_word_number_span">单词数 ...</small>
+            </div>
+            <p class="mb-1">我收藏的单词。</p>
+            <small>来自我</small>
+          </a>
+          <!--
+          <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">托福核心词</h5>
+              <small class="text-muted">单词数 1000+</small>
+            </div>
+            <p class="mb-1">涵盖托福复习考试的核心单词。复习托福的考试应该熟练掌握。</p>
+            <small class="text-muted">来自系统词库</small>
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">List group item heading</h5>
+              <small class="text-muted">3 days ago</small>
+            </div>
+            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+            <small class="text-muted">Donec id elit non mi porta.</small>
+          </a>
+          -->
+        </div>
+        </div></div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="js/libs/js.cookie.min.js"></script>
+        <script src="js/main.js"></script>
+        <script>
+            
+            current_book_file = 'voc3000.xlsx';
+            chosen_book_file = '';
+            
+            
+            
+            auto_set_active_book = function(){
+                $(".book_listed").removeClass("active");
+                var chosen_book = Cookies.get('chosen_book_file');
+                if(chosen_book){
+                    if(chosen_book == 'voc3000.xlsx'){
+                        $('a[bookID="SYS:GRE3000"]').addClass('active');
+                    }
+                    else if(chosen_book == 'SYS:USER'){
+                        $('a[bookID="SYS:USER"]').addClass('active');
+                    }
+                }
+                else
+                {
+                    $('a[bookID="SYS:GRE3000"]').addClass('active');
+                }
+            }
+            
+            
+            $(document).ready(function(){
+                auto_set_active_book();
+            });
+            
+            on_select_current_book = function(obj){
+                console.log("book is selected",obj);
+                $(".book_listed").removeClass("active");
+                $(obj).addClass("active");
+                book_name = $(obj).attr('bookID')
+                
+                console.log('book_name=' + book_name);
+            if(book_name == 'SYS:GRE3000'){
+                console.log('current book = gre3000');
+                chosen_book_file = 'voc3000.xlsx';
+                Cookies.set('chosen_book_file','voc3000.xlsx');
+                //$('#current_book_name').html('GRE 3000');
+                
+            }
+            else if(book_name == 'SYS:USER'){
+                console.log('current book = user list');
+                chosen_book_file = 'SYS:USER';
+                Cookies.set('chosen_book_file','SYS:USER');
+            }
+            else{
+                console.log('book name=' + book_name);
+            }
+
+            }
+            
+            
+            
+            </script>
+        
+       </body>
