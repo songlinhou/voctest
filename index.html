@@ -159,7 +159,7 @@
                 </div>  
                 
             <!-- Modal new practice-->
-            <div class="modal fade" id="practiceModal" tabindex="-1" role="dialog" aria-labelledby="practiceModal" aria-hidden="true">
+            <div class="modal fade" id="practiceModal" tabindex="-1" role="dialog" aria-labelledby="practiceModal" aria-hidden="true" data-backdrop="static">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -170,7 +170,7 @@
                   </div>
                   <div class="modal-body">
                     请稍等.. <br>
-                    <small>将在 <span id="practice_sec_left">5</span> 秒后启动</small>
+                    <small id="word_practice_status">将在 <span id="practice_sec_left">5</span> 秒后启动</small>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
@@ -206,7 +206,7 @@
           
                 
         <!-- Modal new game-->
-            <div class="modal fade" id="joinGame" tabindex="-1" role="dialog" aria-labelledby="joinGame" aria-hidden="true">
+            <div class="modal fade" id="joinGame" tabindex="-1" role="dialog" aria-labelledby="joinGame" aria-hidden="true" data-backdrop="static">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -639,7 +639,14 @@
     
     
     
-    
+    logout_user = function(){
+        $("#loginModal").modal("hide");
+        $("#user_label span").html("用户名");
+        $("#user_label").fadeOut("slow");
+        $("#login_sign_menu_btn").show();
+        user_states = undefined;
+        Cookies.set("login_status",'');
+    }
     
     update_user_login_state = function(data){
         $("#loginModal").modal("hide");
@@ -665,8 +672,9 @@
         mobilePhoneVerified: false
         */
         if(login_data){
-            login_data = JSON.parse(login_data);
             try{
+                login_data = JSON.parse(login_data);
+            
                 $("#loginModal").modal("hide");
                 $("#user_label span").html(login_data['username']);
                 $("#user_label").fadeIn("slow");
@@ -679,6 +687,7 @@
                 console.log("autologin err",err);
                 $("#user_label span").html("");
                 $("#user_label").hide();
+                Cookies.set("login_status",'');
             }
         }
     }
@@ -712,6 +721,7 @@
     save_word = function(word,meaning){
         console.log("save:" + word + ":" + meaning);
 
+        word = word.replace("<#>","#");
         Cookies.set("<#>"+word, meaning);
         console.log("current user_words=");
         console.log(Cookies.get()); //not function yet
@@ -756,11 +766,13 @@
             
         }
         catch(err){
-            console.log("save to lean error",err); 
+            console.log("save to lean error",err);
+            Cookies.set("login_status",'');
         }
     }
     
-    split_chinese_english = function(content){  
+    split_chinese_english = function(content){
+        // need update
         cnStr = "";
         enStr = "";
         for(var i=0;i<content.length;i++){
@@ -771,6 +783,7 @@
                 enStr += content[i];
             }
         }
+
         return {'cn':cnStr,'en':enStr}
     }
     
@@ -867,15 +880,20 @@
     
     first_time_show_word_list = function(){
         $("#practiceModal").modal('show');
-        time_left = 5
+        time_left = 0;
+        connection_str = "连接中";
         time_estimated = setInterval(function(){
-            if(time_left <= 0){
-                time_left = 0;
+            if(time_left <=3){
+                connection_str += ".";
+                time_left ++;
             }
             else{
-                time_left -= 1;
+                time_left = 0;
+                connection_str = "连接中"; 
             }
-            $("#practice_sec_left").html(""+time_left);
+            
+            $("#word_practice_status").html(connection_str);
+            //$("#practice_sec_left").html(""+time_left);
         },1000);
         
         //https://vocabcardgame--songlinhou.repl.co/get_word
@@ -923,6 +941,7 @@
                 //continue;
             }
             else{
+                word = word.replace("<#>","");
                 meaning_html = "<span class='meaning_in_list' style='font-size:10pt;padding-left:10px;color:grey'>"+meaning+"</span>";
                 html += '<li class="list-group-item word_piece" id="word_piece_'+ index +'" onclick="click_word_piece('+index+');">' +'<span class="word_in_list" style="color:black">'+ word + '</span>' + meaning_html + "</li>";
                 index ++;
@@ -1420,6 +1439,10 @@
     
     });
     
+    $("#user_label").on("click",function(){
+        console.log("show logout prompt");
+        show_confirm_window("退出登录","是否要注销当前用户？","返回","退出",undefined,logout_user);
+    })
     
     
     
