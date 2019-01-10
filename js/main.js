@@ -727,6 +727,8 @@ lean_cloud_delete = function(delete_class,delete_id,data){
                 $("html, body").animate({ scrollTop: 0 }, "slow");
                 console.log("scrollTop");
                 generate_html_for_data_hash(word_data,undefined,true);
+                $('#skip_button').removeClass('disabled');
+                //$('#finish_btn').removeClass('disabled');
             },1000);
             return;
         }
@@ -741,6 +743,8 @@ lean_cloud_delete = function(delete_class,delete_id,data){
             jsonpCallback:"callback",
             success: function(data){
                 generate_html_for_data_hash(data,try_fetch_word,false);
+                //$('#finish_btn').removeClass('disabled');
+                $('#skip_button').removeClass('disabled');
             },
             error:function(){
                 console.log('error');
@@ -908,6 +912,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
        $("#practice_list").html(card_html);
         //back to top
         $("html, body").animate({ scrollTop: 0 }, "slow");
+        $('#skip_button').removeClass('disabled');
         console.log("scrollTop");
         loop_check_filled = setInterval(function(){
             check_all_inputs();
@@ -917,6 +922,10 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     
     
     $('#skip_button').on("click",function(){
+        if($('#skip_button').hasClass("disabled")){
+            console.log('#skip_button is diabled');
+            return;
+        }
         if($('#skip_button').hasClass("btn-outline-primary")){
             $(".word_ans").removeClass("d-none");
             $(".your_ans").removeClass("d-none");
@@ -932,9 +941,13 @@ lean_cloud_delete = function(delete_class,delete_id,data){
             console.log("scrollTop");
         }
         else if($('#skip_button').hasClass("btn-danger")){
-            $('#skip_button').addClass("btn-outline-primary");
-            $('#skip_button').removeClass("btn-danger");
-            $('#finish_btn').removeClass('disabled');
+            
+            $('#skip_button').addClass('disabled');
+            
+                $('#skip_button').addClass("btn-outline-primary");
+                $('#skip_button').removeClass("btn-danger");
+                
+            
             var chosen_book_file = Cookies.get('chosen_book_file');
             show_word_list(chosen_book_file);
         }
@@ -942,8 +955,9 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     
     $('#finish_btn').on("click",function(){
         if($('#finish_btn').hasClass("disabled")){
+           console.log("#finish_btn is diabled");
            return;
-        }
+           }
         if($('#finish_btn').hasClass("btn-primary")){
             $(".word_ans").removeClass("d-none");
             $(".your_ans").removeClass("d-none");
