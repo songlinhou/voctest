@@ -746,8 +746,8 @@ lean_cloud_delete = function(delete_class,delete_id,data){
                 //$('#finish_btn').removeClass('disabled');
                 $('#skip_button').removeClass('disabled');
             },
-            error:function(){
-                console.log('error');
+            error:function(err){
+                console.log('error',err);
             }
         });
         },1000);
@@ -807,17 +807,22 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         // this is used to initialize server before usage.
         // so users don't need to wait too long.
         console.log('start server prev init');
-        $.ajax({
-            type: 'POST',
-            dataType: 'jsonp',
-            jsonp:'callback',
-            jsonpCallback:"callback",
-            url:get_word_fetch_url(6,'voc3000.xlsx')
-        }).done(function(){
-            console.log("server init success");
-        }).fail(function(err){
-            console.log("server init failed",err);
-        });
+        var attemp = setInterval(function(){
+                $.ajax({
+                type: 'POST',
+                dataType: 'jsonp',
+                jsonp:'callback',
+                jsonpCallback:"callback",
+                url:get_word_fetch_url(6,'voc3000.xlsx')
+            }).done(function(){
+                console.log("server init success");
+                clearInterval(attemp);
+            }).fail(function(err){
+                console.log("server connecting...",err);
+            });
+            
+        },1000);
+        
     }
     
     
