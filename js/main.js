@@ -501,6 +501,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         
         
         //https://vocabcardgame--songlinhou.repl.co/get_word
+        practice_rounds ++;
         try_fetch_word = setInterval(function(){
             $.ajax({
                 type: 'POST',
@@ -518,7 +519,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
                         $("#practiceModal").modal('hide');
                         //console.log("hide");
                         practice_request_success = true;
-                        practice_rounds ++;
+                        
                         $('#bottom_left_text').html("列表 " + practice_rounds);
                         time_left = 5;
                         
