@@ -569,7 +569,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
                 index ++;
             }
         });
-        html += "<div style='height:15rem;'></div>";
+        html += "<div style='height:1rem;'></div>";
         $('#word_list_contents').html(html);
     }
     
@@ -649,7 +649,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
                     html += '<li class="list-group-item word_piece" id="word_piece_'+ index +'" onclick="click_word_piece('+index+');">' +'<span class="word_in_list" style="color:black">'+ word + '</span>' + meaning_html + "</li>";
                     index ++;
                 });
-                html += "<div style='height:15rem;'></div>";
+                html += "<div style='height:1rem;'></div>";
                 $('#word_list_contents').html(html);
                 $('.list-group-item').fadeIn("slow");
             }).fail(function(error){
