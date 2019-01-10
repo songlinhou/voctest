@@ -727,6 +727,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
                 $("html, body").animate({ scrollTop: 0 }, "slow");
                 console.log("scrollTop");
                 generate_html_for_data_hash(word_data,undefined,true);
+                console.log("$('#skip_button').removeClass('disabled');");
                 $('#skip_button').removeClass('disabled');
                 //$('#finish_btn').removeClass('disabled');
             },1000);
@@ -744,6 +745,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
             success: function(data){
                 generate_html_for_data_hash(data,try_fetch_word,false);
                 //$('#finish_btn').removeClass('disabled');
+                console.log("$('#skip_button').removeClass('disabled');");
                 $('#skip_button').removeClass('disabled');
             },
             error:function(err){
@@ -917,6 +919,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
        $("#practice_list").html(card_html);
         //back to top
         $("html, body").animate({ scrollTop: 0 }, "slow");
+        console.log("$('#skip_button').removeClass('disabled');");
         $('#skip_button').removeClass('disabled');
         console.log("scrollTop");
         loop_check_filled = setInterval(function(){
