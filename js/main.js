@@ -36,7 +36,7 @@ lean_cloud_post = function(route,data,withCredential=false){
     var appId = "S5KA3LxWxrgyz0VN6ghbAHXV-gzGzoHsz";
     var key = "nRjAAmtjBPlswOwtXwUdxy0x";
     var request_url = 'https://' + appId.substr(0,8) +'.api.lncld.net/1.1' + route;
-    info = {
+    var info = {
         type: 'POST',
         url: request_url,
         headers:{'X-LC-Id':appId,'X-LC-Key':key,"Content-Type":"application/json;charset=UTF-8"},
@@ -47,7 +47,7 @@ lean_cloud_post = function(route,data,withCredential=false){
     if(withCredential){
         info['xhrFields'] = {withCredentials: true};
     }
-    promise = $.ajax(info);
+    var promise = $.ajax(info);
     return promise;
 }
     
@@ -55,7 +55,7 @@ lean_cloud_post = function(route,data,withCredential=false){
         var appId = "S5KA3LxWxrgyz0VN6ghbAHXV-gzGzoHsz";
         var key = "nRjAAmtjBPlswOwtXwUdxy0x";
         var request_url = 'https://' + appId.substr(0,8) +'.api.lncld.net/1.1' + route;
-        info = {
+        var info = {
             type: 'PUT',
             url: request_url,
             headers:{'X-LC-Id':appId,'X-LC-Key':key,"Content-Type":"application/json;charset=UTF-8"},
@@ -66,7 +66,7 @@ lean_cloud_post = function(route,data,withCredential=false){
         if(withCredential){
             info['xhrFields'] = {withCredentials: true};
         } 
-        promise = $.ajax(info);
+        var promise = $.ajax(info);
         return promise;
     }
      
@@ -75,14 +75,14 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     var appId = "S5KA3LxWxrgyz0VN6ghbAHXV-gzGzoHsz";
     var key = "nRjAAmtjBPlswOwtXwUdxy0x";
     var request_url = 'https://' + appId.substr(0,8) +'.api.lncld.net/1.1/' + delete_class + '/' + delete_id;
-    info = {
+    var info = {
         type: 'DELETE',
         url: request_url,
         headers:{'X-LC-Id':appId,'X-LC-Key':key,"Content-Type":"application/json;charset=UTF-8"},
         dataType: "json"
         //xhrFields: {withCredentials: true}
     };
-    promise = $.ajax(info);
+    var promise = $.ajax(info);
     return promise;
 } 
      
@@ -90,7 +90,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         var appId = "S5KA3LxWxrgyz0VN6ghbAHXV-gzGzoHsz";
         var key = "nRjAAmtjBPlswOwtXwUdxy0x";
         var request_url = 'https://' + appId.substr(0,8) +'.api.lncld.net/1.1' + route;
-        info = {
+        var info = {
             type: 'POST',
             url: request_url,
             headers:{"Content-Type":"text/plain;charset=UTF-8"},
@@ -103,7 +103,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
             //xhrFields: {withCredentials: true}
         };
         
-        promise = $.ajax(info);
+        var promise = $.ajax(info);
         return promise;
     }
     
@@ -115,7 +115,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     }
     
     lean_signup = function(username,password){
-        data = {username:username,password:password};
+        var data = {username:username,password:password};
         return lean_cloud_post("/users",data);
     }
     
@@ -123,7 +123,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     //word starred
     
     lean_add_word = function(username,word,meaning){
-        data = {word:word,meaning:meaning,user:username};
+        var data = {word:word,meaning:meaning,user:username};
         return lean_cloud_post("/classes/StarredWord",data);
     }
     
@@ -152,7 +152,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     
     
     get_word_fetch_url = function(number,book){
-        url = "https://voctest--songlinhou.repl.co/get_words?number=" + number + "&book=" + book;
+        var url = "https://voctest--songlinhou.repl.co/get_words?number=" + number + "&book=" + book;
         return url;
     }
     
@@ -168,7 +168,9 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     }
     
     update_user_login_state = function(data){
+        console.log('update_user_login_state',data);
         $("#loginModal").modal("hide");
+        var username = data['username'];
         $("#user_label span").html(username);
         $("#user_label").fadeIn("slow");
         $("#login_sign_menu_btn").hide();
@@ -180,7 +182,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         if(!auto_login){
             return;
         }
-        login_data = Cookies.get("login_status");
+        var login_data = Cookies.get("login_status");
         /*
         objectId: "5c34b50b7565710067ff4b10"
         sessionToken: "s5mhnmgpgj2c5q6phi1gkfmje"
@@ -221,8 +223,8 @@ lean_cloud_delete = function(delete_class,delete_id,data){
             }
     */
     directly_add_word = function(){
-        content = $("#directly_add_input").val();
-        data = split_chinese_english(content);
+        var content = $("#directly_add_input").val();
+        var data = split_chinese_english(content);
         console.log(data);
         return data;
     }
@@ -261,7 +263,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
             if(login_data){
                 login_data = JSON.parse(login_data);
             }
-            username = login_data['username']
+            var username = login_data['username']
             lean_add_word(username,word,meaning)
                 .done(function(resp){
                 console.log("[DB]added to lean:" + username + "," + word + "," + meaning,resp);
@@ -300,8 +302,8 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     
     split_chinese_english = function(content){
         // need update
-        cnStr = "";
-        enStr = "";
+        var cnStr = "";
+        var enStr = "";
         for(var i=0;i<content.length;i++){
             if(content.charCodeAt(i)>255){
                 cnStr += content[i];
@@ -348,7 +350,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     }
     
     generate_card_html = function(word,correct_ans,your_ans,peer_ans,index,saved){
-        save_status_html = "far fa-bookmark"
+        var save_status_html = "far fa-bookmark"
         if(saved){
             save_status_html = "fas fa-bookmark"
         }
@@ -357,7 +359,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         correct_ans = to_literal_str(correct_ans);
         
         //style="font-family: 'Font Name', serif;"
-        practice_card_html = '<!-- card start -->'+
+        var practice_card_html = '<!-- card start -->'+
         '<div class="col col-md-4 col-sm-6 col-xs-12 col-12">'+ 
         '<div class="card bg-light mb-3" style="max-width: 20rem;">'+
         '<div class="card-body">'+
@@ -383,7 +385,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     }
     
     check_all_inputs = function(){
-        filled = true;
+        var filled = true;
         $(".ans_input").each(function(index,ans_input){
             value = ans_input.value;
             //console.log(value);
@@ -407,9 +409,9 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     
     dict_list_key_combine = function(dict_obj){
         console.log('dict_list_key_combine=',dict_obj);
-        ret_hash = {};
+        var ret_hash = {};
         for(var number in dict_obj) {
-            content_hash = dict_obj[number];
+            var content_hash = dict_obj[number];
             for(var key in content_hash){
                 ret_hash[key] = content_hash[key];
             }
@@ -419,9 +421,10 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     
     first_time_show_word_list = function(book_file_name='voc3000.xlsx'){
         $("#practiceModal").modal('show');
-        time_left = 0;
-        connection_str = "建立连接中";
-        time_estimated = setInterval(function(){
+        var time_left = 0;
+        practice_rounds = 0;
+        var connection_str = "建立连接中";
+        var time_estimated = setInterval(function(){
             if(time_left <=3){
                 connection_str += ".";
                 time_left ++;
@@ -437,25 +440,25 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         
         if(book_file_name.startsWith("SYS:")){
             console.log("using lean cloud");
-            promise = get_all_db_words();
+            var promise = get_all_db_words();
             if(promise){
             promise.done(function(data){
                 console.log("get data!!!",data);
                 clearInterval(time_estimated);
-                results = data['results'];
-                html = "";
-                index = 0;
-                word_list = []
+                var results = data['results'];
+                var html = "";
+                var index = 0;
+                var word_list = []
                 $.each(results,function(index,record){
-                    word = record['word'];
-                    meaning = record["meaning"];
-                    element = {};
+                    var word = record['word'];
+                    var meaning = record["meaning"];
+                    var element = {};
                     element[word] = meaning;
                     word_list.push(element);
                     //console.log('word_list=',word_list);
                 });
                 console.log('word_list=',word_list);
-                sampled_words = get_random_from_array(6,word_list);
+                var sampled_words = get_random_from_array(6,word_list);
                 word_data = dict_list_key_combine(sampled_words);
                 Cookies.set("db_word_hash",word_data);
                 practice_request_success = true;
@@ -478,7 +481,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
                 //user not login
                 console.log("use cache word list since user doesn't login");
                 clearInterval(time_estimated);
-                all_words = get_cookie_word_hash();
+                var all_words = get_cookie_word_hash();
                 word_data = get_random_from_hash(6,all_words);
                 Cookies.set("db_word_hash",word_data);
                 practice_request_success = true;
@@ -539,11 +542,11 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     }
     
     get_cookie_word_hash = function(){
-        all_cookie_data = Cookies.get();
-        ret = {}
+        var all_cookie_data = Cookies.get();
+        var ret = {}
         $.each(all_cookie_data,function(word,meaning){
             if(word.indexOf('<#>') == 0){
-                _word = word.replace("<#>","");
+                var _word = word.replace("<#>","");
                 ret[_word] = meaning;
             }
         });
@@ -554,9 +557,9 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     
     show_cookie_word_list = function(){
         console.log("show_cookie_word_list");
-        all_cookie_data = Cookies.get();
-        html = "";
-        index = 0;
+        var all_cookie_data = Cookies.get();
+        var html = "";
+        var index = 0;
         $.each(all_cookie_data,function(word,meaning){
             //console.log(word + ":" + meaning);
             if(word.indexOf("<#>") != 0){
@@ -564,7 +567,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
             }
             else{
                 word = word.replace("<#>","");
-                meaning_html = "<span class='meaning_in_list' style='font-size:10pt;padding-left:10px;color:grey'>"+meaning+"</span>";
+                var meaning_html = "<span class='meaning_in_list' style='font-size:10pt;padding-left:10px;color:grey'>"+meaning+"</span>";
                 html += '<li class="list-group-item word_piece" id="word_piece_'+ index +'" onclick="click_word_piece('+index+');">' +'<span class="word_in_list" style="color:black">'+ word + '</span>' + meaning_html + "</li>";
                 index ++;
             }
@@ -584,7 +587,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     }
     
     get_random_from_array = function(number,items){
-        ret = [];
+        var ret = [];
         for(i=0;i<number;i++){
             var item = items[Math.floor(Math.random()*items.length)];
             ret.push(item);
@@ -598,7 +601,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         for(var key in hash){
             keys.push(key);
         }
-        sampled_keys = get_random_from_array(number,keys);
+        var sampled_keys = get_random_from_array(number,keys);
         console.log('sampled_keys=',sampled_keys);
         for(i=0; i<sampled_keys.length;i++){
             sampleKey = sampled_keys[i];
@@ -614,9 +617,9 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         {
             login_status = JSON.parse(login_status);
             console.log("get db list from user");
-            url = "/classes/StarredWord";
+            var url = "/classes/StarredWord";
             url += ("?where=" + JSON.stringify({user:login_status['username']}));
-            user_comp_dict = {"user":login_status['username']};
+            //user_comp_dict = {"user":login_status['username']};
             return lean_cloud_get(url);
       }
         else{
@@ -632,20 +635,20 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         {
             login_status = JSON.parse(login_status);
             console.log("get db list from user");
-            url = "/classes/StarredWord";
+            var url = "/classes/StarredWord";
             url += ("?where=" + JSON.stringify({user:login_status['username']}));
-            user_comp_dict = {"user":login_status['username']};
+            //user_comp_dict = {"user":login_status['username']};
             lean_cloud_get(url).done(function(data){
                 console.log("get data!!!",data);
-                results = data['results'];
-                html = "";
-                index = 0;
+                var results = data['results'];
+                var html = "";
+                var index = 0;
                 $.each(results,function(index,record){
                     //console.log(index+":"+record);
-                    word = record['word'];
-                    meaning = record["meaning"];
+                    var word = record['word'];
+                    var meaning = record["meaning"];
                     //html
-                    meaning_html = "<span style='font-size:10pt;padding-left:10px;color:grey' class='meaning_in_list'>"+meaning+"</span>";
+                    var meaning_html = "<span style='font-size:10pt;padding-left:10px;color:grey' class='meaning_in_list'>"+meaning+"</span>";
                     html += '<li class="list-group-item word_piece" id="word_piece_'+ index +'" onclick="click_word_piece('+index+');">' +'<span class="word_in_list" style="color:black">'+ word + '</span>' + meaning_html + "</li>";
                     index ++;
                 });
@@ -673,32 +676,14 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     }
     
     
-    
-    show_firebase_word_list = function(){
-        test_co = firestore.collection("test");
-        test_co.get().then(function(querySnapshot) {
-            
-            querySnapshot.forEach(function(doc) {
-                // doc.data() is never undefined for query doc snapshots
-                console.log(doc.id, " => ", doc.data());
-            });
-            //console.log(querySnapshot[0]);
-        
-    })
-    .catch(function(error) {
-        console.log("Error getting documents: ", error);
-    });
-
-    }
-    
     generate_html_for_data_hash = function(data,try_fetch_word,from_user_dict){
         console.log(data);
         practice_rounds ++;
         if(try_fetch_word)
             clearInterval(try_fetch_word);
         word_data = data;
-        card_html = "";
-        index = 0;
+        var card_html = "";
+        var index = 0;
         $.each(data, function(word, meaning) {
             console.log(word + ":" + meaning);
             card_html += generate_card_html(word,meaning,undefined,undefined,index,from_user_dict);
@@ -731,7 +716,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     show_word_list = function(book_file_name='voc3000.xlsx'){
         if(book_file_name.startsWith("SYS:USER")){
             console.log("using data cached from lean cloud");
-            word_list = JSON.parse(Cookies.get("db_word_hash"));
+            var word_list = JSON.parse(Cookies.get("db_word_hash"));
             word_data = get_random_from_hash(6,word_list);
             practice_request_success = true;
             setTimeout(function(){
@@ -764,8 +749,8 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     }
     
     fetch_answers = function(){
-        all_user_inputs = [];
-        your_ans_labels = [];
+        var all_user_inputs = [];
+        var your_ans_labels = [];
         $('.ans_input').each(function(index,obj){
             if ($(obj).is(":hidden")){}
             else{
@@ -804,7 +789,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     }
     
     auto_login_check = function(){
-        auto_login = Cookies.get("auto_login");
+        var auto_login = Cookies.get("auto_login");
         if (auto_login){
             $("#auto_login").attr("checked", true);
             return true;
@@ -851,7 +836,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         if($("#directly_add_word_btn").hasClass("disabled")){
             return;
         }
-        data = directly_add_word();
+        var data = directly_add_word();
         $("#top_nav").collapse("hide");
         save_word(data['en'],data['cn']); //using cookie
         
@@ -876,7 +861,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     });
     
    $("#newPractice").on("click",function(){
-        chosen_book_file = Cookies.get('chosen_book_file');
+        var chosen_book_file = Cookies.get('chosen_book_file');
         first_time_show_word_list(chosen_book_file);
     });
     
@@ -893,8 +878,8 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         //$("#menu").addClass('d-none');
         $("#bottom_nav").fadeIn("slow");
         $("#bottom_nav").show(); //bug fix
-        card_html = "";
-        index = 0;
+        var card_html = "";
+        var index = 0;
         console.log('word_data=',word_data);
         $.each(word_data, function(word, meaning) {
             console.log("each",word + ":" + meaning);
@@ -932,7 +917,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
             $('#skip_button').addClass("btn-outline-primary");
             $('#skip_button').removeClass("btn-danger");
             $('#finish_btn').removeClass('disabled');
-            chosen_book_file = Cookies.get('chosen_book_file');
+            var chosen_book_file = Cookies.get('chosen_book_file');
             show_word_list(chosen_book_file);
         }
     });
@@ -957,7 +942,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         else if($('#finish_btn').hasClass("btn-success")){
             if(!$('#finish_btn').hasClass("disabled"))
                 $("#finish_btn").addClass("disabled");
-            chosen_book_file = Cookies.get('chosen_book_file');
+            var chosen_book_file = Cookies.get('chosen_book_file');
             show_word_list(chosen_book_file);
         }
     });
@@ -1036,10 +1021,10 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         if($('#login_btn').hasClass("disabled")){
             return;
         }
-        username_correct = false;
+        var username_correct = false;
         
-        username = $("#username_login").val();
-        password = $("#inputPassword_login").val();
+        var username = $("#username_login").val();
+        var password = $("#inputPassword_login").val();
         
         $("#login_btn").addClass("disabled");
         $("#go_to_reg_btn").addClass("disabled");
@@ -1060,14 +1045,14 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         $('#login_btn').addClass("disabled");
         lean_login(username,password)
         .done(function(data){
-            console.log("success!",data);
+            console.log("success! login");
             update_user_login_state(data);
             
         }).fail(function(err){
             console.log(err.responseJSON);
-            res = err.responseJSON;
+            var res = err.responseJSON;
             //code: 210, error: "The username and password mismatch."
-            error_text = "登录失败";
+            var error_text = "登录失败";
             if(res['code'] == 210){
                 error_text = "账号密码不符";
             }
@@ -1087,12 +1072,12 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         if($('#signin_btn').hasClass("disabled")){
             return;
         }
-        username_correct = false;
-        password_correct = false;
+        var username_correct = false;
+        var password_correct = false;
         
-        username = $("#username_sign").val();
-        password = $("#inputPassword_sign").val();
-        password2 = $("#inputPassword2").val();
+        var username = $("#username_sign").val();
+        var password = $("#inputPassword_sign").val();
+        var password2 = $("#inputPassword2").val();
         
         if(username.trim().length < 4){   
             $("#signin_error").html("账号长度至少4位");
@@ -1128,7 +1113,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         $("#go_to_login_btn").addClass("disabled");
         lean_signup(username,password)
         .done(function(data){
-            console.log("success!",data);
+            console.log("success! signin");
             //update ui
             update_user_login_state(data);
             
