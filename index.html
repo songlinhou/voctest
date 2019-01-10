@@ -511,6 +511,39 @@
         </div>
    
    
+       <div class="modal fade" id="updateWordModal" tabindex="-1" role="dialog" aria-labelledby="updateWordModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="updateWordModalLabel">修改单词</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body" id="updateWordModalText">
+                   
+                    <div class="input-group flex-nowrap" style="margin-bottom: 5px;">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" >单词</span>
+                  </div>
+                  <input type="text" class="form-control" placeholder="单词" aria-label="Username" aria-describedby="addon-wrapping" id="word_to_modify">
+                </div>
+                 <div class="input-group flex-nowrap">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">词义</span>
+                  </div>
+                  <input type="text" class="form-control" placeholder="词义" aria-label="Username" aria-describedby="addon-wrapping" id="meaning_to_modify">
+                </div>
+                 
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="updateWordModal_cancel">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="updateWordModal_ok">修改</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+   
     
     </div>
     

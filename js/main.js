@@ -52,10 +52,11 @@ lean_cloud_post = function(route,data,withCredential=false){
     return promise;
 }
     
-     lean_cloud_put = function(route,data,withCredential=false){
+     lean_cloud_put = function(class_name,objectID,data,withCredential=false){
         var appId = "S5KA3LxWxrgyz0VN6ghbAHXV-gzGzoHsz";
         var key = "nRjAAmtjBPlswOwtXwUdxy0x";
-        var request_url = 'https://' + appId.substr(0,8) +'.api.lncld.net/1.1' + route;
+        var route = class_name + "/" + objectID 
+        var request_url = 'https://' + appId.substr(0,8) +'.api.lncld.net/1.1/classes/' + route;
         var info = {
             type: 'PUT',
             url: request_url,
@@ -242,21 +243,40 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         }
     }
     
+    get_word_explanation = function(word){
+        var url = 'https://voctest--songlinhou.repl.co/meaning?word=' + word;
+        return $.ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'jsonp',
+            jsonp:'callback',
+            jsonpCallback:"callback",
+            /*
+            success: function(data){
+                console.log("word information is fetched!",data);
+                var definition_list = data['defs'];
+                var meaning_str = "";
+                $.each(definition_list,function(index,content){
+                    var pos = content['pos'];
+                    var def = content['def'];
+                    meaning_str += (pos + def + ";");
+               });
+            },
+            error: function(err){
+                console.log("word info err",err);
+            }
+            */
+        });
+    }
+    
     delete_word = function(word){
         word = word.replace("<#>","#");
         Cookies.remove("<#>"+word);
         console.log(word +' is removed from cookies');
     }
     
-    save_word = function(word,meaning){
-        console.log("save:" + word + ":" + meaning);
-
-        word = word.replace("<#>","#");
-        Cookies.set("<#>"+word, meaning);
-        console.log("current user_words=");
-        console.log(Cookies.get()); //not function yet
-        $("#directly_add_word_btn").addClass("disabled");
-        //using firebase
+    save_word_to_lean_and_alert = function(word,meaning){
+        
         login_data = Cookies.get("login_status");
         //"fas fa-bookmark"
         
@@ -298,6 +318,47 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         catch(err){
             console.log("save to lean error",err);
             Cookies.set("login_status",'');
+        }
+    }
+    
+    save_word = function(word,meaning){
+        if(!word){
+            return;
+        }
+        word = word.replace("<#>","#");
+        if(word.trim() == ''){
+            return;
+        }
+        if(!meaning || meaning.trim() == ''){
+            meaning = '未提供解释'; //TODO
+            //cookie
+            console.log("save:" + word + ":" + meaning);
+            Cookies.set("<#>"+word, meaning);
+            console.log("current user_words=");
+            console.log(Cookies.get()); //not function yet
+            $("#directly_add_word_btn").addClass("disabled");
+
+            //lean
+            promise = get_word_explanation(word).done(function(resp){
+                console.log("word information is fetched!",resp);
+                var definition_list = resp['defs'];
+                var meaning_str = "";
+                $.each(definition_list,function(index,content){
+                    var pos = content['pos'];
+                    var def = content['def'];
+                    meaning_str += (pos + def + ";");
+               });
+                meaning = meaning_str;
+                save_word_to_lean_and_alert(word,meaning);
+            }).fail(function(err){
+                console.log("word info err",err);
+                meaning = '未提供解释'; //TODO
+                save_word_to_lean_and_alert(word,meaning);
+            });
+        }
+        else{
+            //user provides the meaning
+            save_word_to_lean_and_alert(word,meaning);
         }
     }
     
@@ -351,6 +412,8 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     }
     
     generate_card_html = function(word,correct_ans,your_ans,peer_ans,index,saved){
+        if(!word)
+            return "";
         var save_status_html = "far fa-bookmark"
         if(saved){
             save_status_html = "fas fa-bookmark"
@@ -454,9 +517,11 @@ lean_cloud_delete = function(delete_class,delete_id,data){
                     var word = record['word'];
                     var meaning = record["meaning"];
                     var element = {};
-                    element[word] = meaning;
-                    word_list.push(element);
-                    //console.log('word_list=',word_list);
+                    if(word){
+                        element[word] = meaning;
+                        word_list.push(element);
+                        //console.log('word_list=',word_list);
+                    }
                 });
                 console.log('word_list=',word_list);
                 var sampled_words = get_random_from_array(6,word_list);
@@ -540,6 +605,14 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         return str;
         }catch(err){
             console.log('to_literal_str:',str);
+        }
+    }
+    to_literal_str_space = function(str){
+        try{
+        str = str.replace(/\n/g, ' ').replace(/\'/g, " ").replace(/\"/g, ' ');
+        return str;
+        }catch(err){
+            console.log('to_literal_str_space:',str);
         }
     }
     
@@ -649,10 +722,15 @@ lean_cloud_delete = function(delete_class,delete_id,data){
                     //console.log(index+":"+record);
                     var word = record['word'];
                     var meaning = record["meaning"];
+                    var objectId = record["objectId"];
                     //html
-                    var meaning_html = "<span style='font-size:10pt;padding-left:10px;color:grey' class='meaning_in_list'>"+meaning+"</span>";
-                    html += '<li class="list-group-item word_piece" id="word_piece_'+ index +'" onclick="click_word_piece('+index+');">' +'<span class="word_in_list" style="color:black">'+ word + '</span>' + meaning_html + "</li>";
-                    index ++;
+                    if(word){
+                        word = to_literal_str_space(word);
+                        meaning = to_literal_str_space(meaning);
+                        var meaning_html = "<span style='font-size:10pt;padding-left:10px;color:grey' class='meaning_in_list'>"+meaning+"</span>";
+                        html += '<li class="list-group-item word_piece" id="word_piece_'+ index +'" onclick="click_word_piece('+index+');" ondblclick="update_word_in_list(\'' + objectId +'\',' + index +', \'' + word + '\',\'' + meaning +'\');">' +'<span class="word_in_list" style="color:black" contenteditable="false" id="word_piece_span_'+ index +'">'+ word + '</span><span contenteditable="false" id="meaning_piece_span_'+ index +'">' + meaning_html + "</span></li>";
+                        index ++;
+                    }
                 });
                 html += "<div style='height:1rem;'></div>";
                 $('#word_list_contents').html(html);
@@ -675,6 +753,14 @@ lean_cloud_delete = function(delete_class,delete_id,data){
             show_cookie_word_list();
         }
         
+    }
+    
+    update_word_in_list = function(objectId,index,word,meaning){
+        //lean_cloud_put("StarredWord",objectId)
+        console.log("update_word_in_list",word,meaning);
+        $('#updateWordModal').modal("show");
+        $('#word_to_modify').val(word);
+        $('#meaning_to_modify').val(meaning);
     }
     
     
@@ -869,7 +955,6 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         var data = directly_add_word();
         $("#top_nav").collapse("hide");
         save_word(data['en'],data['cn']); //using cookie
-        
         
     });
     
