@@ -463,7 +463,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
                     $("#practiceModal").modal('hide');
                     practice_rounds ++;
                     $('#bottom_left_text').html("列表 " + practice_rounds);
-                    $("html, body").animate({ scrollTop: 0 }, "slow");
+                    //$("html, body").animate({ scrollTop: 0 }, "slow");
                 },1000);
                 
             return;
@@ -486,7 +486,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
                 $('#bottom_left_text').html("列表 " + practice_rounds);
                 setTimeout(function(){
                     $("#practiceModal").modal('hide');
-                    $("html, body").animate({ scrollTop: 0 }, "slow");
+                    //$("html, body").animate({ scrollTop: 0 }, "slow");
                 },1000);
                 
                 
@@ -518,8 +518,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
                         practice_rounds ++;
                         $('#bottom_left_text').html("列表 " + practice_rounds);
                         time_left = 5;
-                        //back to top
-                        $("html, body").animate({ scrollTop: 0 }, "slow");
+                        
                     },500);
                 },
                 error:function(){
@@ -707,6 +706,8 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         });
         card_html += "<div style='height:15rem;'></div>"
         // animation here
+        var triggered_id = 0;
+        var triggered_number = $( ".card" ).length;
         $( ".card" ).fadeOut( "slow", function() {
             // Animation complete.
             $("#practice_list").html(card_html);
@@ -720,8 +721,11 @@ lean_cloud_delete = function(delete_class,delete_id,data){
                 check_all_inputs();
             });
             // back to top
-            $("html, body").animate({ scrollTop: 0 }, "slow");
-        });
+            triggered_id ++;
+            if(triggered_id == triggered_number){
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+            }
+            });
     }
     
     show_word_list = function(book_file_name='voc3000.xlsx'){
@@ -735,6 +739,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
                 practice_rounds ++;
                 $('#bottom_left_text').html("列表 " + practice_rounds);
                 $("html, body").animate({ scrollTop: 0 }, "slow");
+                console.log("scrollTop");
                 generate_html_for_data_hash(word_data,undefined,true);
             },1000);
             return;
@@ -898,6 +903,9 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         });
         card_html += "<div style='height:15rem;'></div>"
        $("#practice_list").html(card_html);
+        //back to top
+        $("html, body").animate({ scrollTop: 0 }, "slow");
+        console.log("scrollTop");
         loop_check_filled = setInterval(function(){
             check_all_inputs();
         },1000)
@@ -918,6 +926,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
             //$('#finish_btn').removeClass('disabled');
             //back to top
             $("html, body").animate({ scrollTop: 0 }, "slow");
+            console.log("scrollTop");
         }
         else if($('#skip_button').hasClass("btn-danger")){
             $('#skip_button').addClass("btn-outline-primary");
@@ -943,6 +952,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
             clearInterval(loop_check_filled);
             //back to top
             $("html, body").animate({ scrollTop: 0 }, "slow");
+            console.log("scrollTop");
         }
         else if($('#finish_btn').hasClass("btn-success")){
             if(!$('#finish_btn').hasClass("disabled"))
