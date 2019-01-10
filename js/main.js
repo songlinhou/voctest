@@ -10,6 +10,7 @@ user_states = undefined;
 user_db_word_list = undefined;
 practice_request_success = false;
 from_user_list = false;
+current_selected_ans_input_index = 0;
 
     
     
@@ -971,7 +972,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
             $(".your_ans").removeClass("d-none");
             fetch_answers()
             $('.ans_input').addClass("d-none");
-            $('#finish_btn').html("检查");
+            $('#finish_btn').html("下一组");
             $('#finish_btn').removeClass("btn-primary");
             $('#finish_btn').addClass("btn-success");
             clearInterval(loop_check_filled);
@@ -1203,6 +1204,73 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         console.log("book_select_cancel onclick");
         // we don't do anything.
     });
+
+
+    focus_current_ans_input = function(){
+        console.log('focus on',current_selected_ans_input_index);
+        $('.ans_input').get(current_selected_ans_input_index).focus();
+        var id = $($('.ans_input').get(current_selected_ans_input_index)).attr('id');
+        $('#practice').scrollTo('#'+id);
+    }
+
+     $('body').keyup(function(e) {
+        var code = e.keyCode || e.which;
+        console.log('keyup=',code);
+        var length_of_input = $('.ans_input').length;
+         console.log('length_of_input=',length_of_input);
+         if(length_of_input !=0)
+             {
+                 if( e.ctrlKey && ( e.which === 13 ) ){
+                     console.log('next');
+                     //click the verify button
+                     $('#finish_btn').click();
+                 }
+            else if(code == 13){
+                console.log('enter');
+                focus_current_ans_input();
+                current_selected_ans_input_index++;
+                 if(current_selected_ans_input_index == length_of_input){
+                     current_selected_ans_input_index = 0;
+                 }
+            }
+            else if ( e.shiftKey && ( e.which === 9 ) ){
+                console.log('back');
+                focus_current_ans_input();
+                current_selected_ans_input_index--;
+                 if(current_selected_ans_input_index < 0){
+                     current_selected_ans_input_index = length_of_input-1;
+                 }
+            }
+
+         }
+         
+         return;
+         
+         
+         
+         
+         if(current_selected_ans_input_index > length_of_input-1){
+             current_selected_ans_input_index = 0;
+         }
+         else if(current_selected_ans_input_index < 0){
+             current_selected_ans_input_index = length_of_input - 1;
+         }
+         focus_current_ans_input(current_selected_ans_input_index);
+        if ( e.shiftKey && ( e.which === 9 ) ) {
+            console.log('tab forward pressed');
+            current_selected_ans_input_index --;
+         }
+         else if (code == '9') {
+            console.log('tab forward pressed');
+            //$(this).closest('div.body').next().find('div.calculationContainer') 
+            
+            current_selected_ans_input_index ++;
+            
+        }
+    
+         
+         
+ });
 
    
 
