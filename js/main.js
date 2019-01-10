@@ -799,10 +799,27 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         return false;
     }
     
+    pre_initialize_repl_server = function(){
+        // this is used to initialize server before usage.
+        // so users don't need to wait too long.
+        console.log('start server prev init');
+        $.ajax({
+            type: 'POST',
+            dataType: 'jsonp',
+            jsonp:'callback',
+            jsonpCallback:"callback",
+            url:get_word_fetch_url(6,'voc3000.xlsx')
+        }).done(function(){
+            console.log("server init success");
+        }).fail(function(err){
+            console.log("server init failed",err);
+        });
+    }
     
     
     document_ready = function(){
         console.log("ready");
+        pre_initialize_repl_server();
         $("#game").hide();
         $("#practice").hide();
         $("#bottom_nav").hide();
