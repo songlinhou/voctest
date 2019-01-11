@@ -66,14 +66,17 @@
                     <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown01">
                         <a class="dropdown-item" href="#">设置</a>
-                        <a class="dropdown-item" href="#">使用说明<span class="secondary" style="color:darkgrey;padding-left: 0.5rem;font-size: 10pt">(v1.2.0)</span></a>
+                        <a class="dropdown-item" href="#">使用说明<span class="secondary" style="color:darkgrey;padding-left: 0.5rem;font-size: 10pt">(v1.2.1)</span></a>
                         <a class="dropdown-item" href="#">联系作者</a>
                     </div>
                 </li>
                 
             </ul>
-            <div class="form-inline my-2 my-lg-0">
+            <div class="form-inline">
                 <input class="form-control mr-sm-2" type="text" placeholder="effort努力" aria-label="newWord" id="directly_add_input">
+            </div>
+            <div class="form-inline my-2 my-lg-0">
+                <button class="btn btn-success my-2 my-sm-0" id="directly_translate_btn" style="margin-right: 5px;">单词翻译</button>
                 <button class="btn btn-outline-success my-2 my-sm-0" id="directly_add_word_btn">加入单词本</button>
             </div>
         </div>
@@ -521,28 +524,51 @@
                     </button>
                   </div>
                   <div class="modal-body" id="updateWordModalText">
-                   
-                    <div class="input-group flex-nowrap" style="margin-bottom: 5px;">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" >单词</span>
-                  </div>
-                  <input type="text" class="form-control" placeholder="单词" aria-label="Username" aria-describedby="addon-wrapping" id="word_to_modify">
-                </div>
-                 <div class="input-group flex-nowrap">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">词义</span>
-                  </div>
-                  <input type="text" class="form-control" placeholder="词义" aria-label="Username" aria-describedby="addon-wrapping" id="meaning_to_modify">
-                </div>
+                  <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" >单词</span>
+                      </div>
+                      <input type="text" class="form-control" placeholder="单词" aria-label="单词" aria-describedby="basic-addon1" id="word_to_modify">
+                    </div>
+                    
+                   <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">词义</span>
+                      </div>
+                      <textarea class="form-control" aria-label="词义" id="meaning_to_modify"></textarea>
+                    </div>
                  
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" id="updateWordModal_cancel">取消</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal" id="updateWordModal_ok">修改</button>
                   </div>
+
                 </div>
               </div>
             </div>
+            
+        <div class="modal fade" id="wordTranslateModal" tabindex="-1" role="dialog" aria-labelledby="wordTranslateModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="wordTranslateModalLabel">词典查询</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="wordTranslateModalText">
+                <p class="lead" id="word_in_search" style="font-size:30px;color: #007bff;">Word</p>
+                <p id="pronounce_p"></p>
+                <div id="word_meaning_in_search" style="font-size: 14px;">exfasdfasgdsasdf1<br/>exfasdfasgdsasdf1<br/></div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="wordTranslate_ok">添加或更新到单词本</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="wordTranslate_cancel">关闭</button>
+              </div>
+            </div>
+          </div>
+        </div>
    
     
     </div>
@@ -560,6 +586,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>

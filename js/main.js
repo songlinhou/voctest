@@ -11,9 +11,25 @@ user_db_word_list = undefined;
 practice_request_success = false;
 from_user_list = false;
 current_selected_ans_input_index = 0;
+audioElement = undefined;
 
     
     
+
+setup_audio = function(src){
+    audioElement = document.createElement('audio');
+    audioElement.setAttribute('src', src);
+    audioElement.addEventListener('ended', function() {
+        //this.play();
+    }, false);
+}
+
+play_sound = function(src){
+    console.log("play sound:",src);
+    setup_audio(src);
+    audioElement.play();
+}
+
     
 lean_cloud_get = function(route,withCredential=false)
 {
@@ -275,6 +291,15 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         console.log(word +' is removed from cookies');
     }
     
+    alert_word_message = function(message,word,meaning){
+        $("#alert_div").html('<div id="top_alert" class="alert alert-primary alert-dismissible fade show" role="alert"><strong>'+ message +'</strong><br/>单词：' + word+ '<br/>词义：' + meaning + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+        setTimeout(function(){
+            console.log("close it");
+            $('#directly_add_input').val("");
+            $("#top_alert").alert('close');
+        },500);
+    }
+    
     save_word_to_lean_and_alert = function(word,meaning){
         
         login_data = Cookies.get("login_status");
@@ -290,12 +315,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
                 console.log("[DB]added to lean:" + username + "," + word + "," + meaning,resp);
                 
                 //ui update
-                $("#alert_div").html('<div id="top_alert" class="alert alert-primary alert-dismissible fade show" role="alert"><strong>新单词加入云端</strong><br/>单词：' + word+ '<br/>词义：' + meaning + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-            setTimeout(function(){
-                console.log("close it");
-                $('#directly_add_input').val("");
-                $("#top_alert").alert('close');
-            },2000);
+                alert_word_message("新单词加入云端",word,meaning);
                 $("#directly_add_word_btn").removeClass("disabled");
                 
             }).fail(function(err){
@@ -335,7 +355,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
             console.log("save:" + word + ":" + meaning);
             Cookies.set("<#>"+word, meaning);
             console.log("current user_words=");
-            console.log(Cookies.get()); //not function yet
+            //console.log(Cookies.get()); 
             $("#directly_add_word_btn").addClass("disabled");
 
             //lean
@@ -358,6 +378,9 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         }
         else{
             //user provides the meaning
+            console.log("save:" + word + ":" + meaning);
+            Cookies.set("<#>"+word, meaning);
+            console.log("current user_words=");
             save_word_to_lean_and_alert(word,meaning);
         }
     }
@@ -755,13 +778,66 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         
     }
     
+    update_word_in_cookie = function(word,meaning){
+        if(!word){
+            return;
+        }
+        word = word.replace("<#>","#");
+        if(word.trim() == ''){
+            return;
+        }
+        _word = "<#>" + word;
+        Cookies.set(_word,meaning);
+        console.log("word " + word +" updated in cookie.");
+    }
+    
+    update_word_in_cloud = function(word,meaning,objectId){
+        if(!word){
+            return;
+        }
+        if(word.trim() == ''){
+            return;
+        }
+        data = {word: word,meaning:meaning};
+        return lean_cloud_put("StarredWord",objectId,data);
+    }
+    
     update_word_in_list = function(objectId,index,word,meaning){
         //lean_cloud_put("StarredWord",objectId)
         console.log("update_word_in_list",word,meaning);
         $('#updateWordModal').modal("show");
         $('#word_to_modify').val(word);
         $('#meaning_to_modify').val(meaning);
+        $('#meaning_to_modify').css("height","120px");
+        $('#updateWordModal_ok').attr("updateID",objectId);
+        $('#updateWordModal_ok').attr("wordIndex",index);
     }
+    
+    $('#updateWordModal_ok').on("click",function(){
+        var objID = $('#updateWordModal_ok').attr("updateID");
+        var index = $('#updateWordModal_ok').attr("wordIndex");
+        if(!objID){
+            return;
+        }
+        var word = $('#word_to_modify').val();
+        var meaning = $('#meaning_to_modify').val();
+        meaning = to_literal_str_space(meaning);
+        word = to_literal_str_space(word);
+        console.log('we should update:',word,meaning);
+        
+        $('#updateWordModal_ok').attr("updateID","");
+        update_word_in_cookie(word,meaning); // cookie
+        update_word_in_cloud(word,meaning,objID).done(function(resp){
+            console.log("word updated in cloud",resp);
+            alert_word_message("单词已在云端更新",word,meaning);
+        }).fail(function(err){
+            console.log("单词更新失败",err);
+        }).always(function(){
+            console.log("update word done");
+        });
+        $('#word_piece_span_' + index).html(word);
+        $('#meaning_piece_span_' + index + " .meaning_in_list").html(meaning);
+    });
     
     
     generate_html_for_data_hash = function(data,try_fetch_word,from_user_dict){
@@ -930,6 +1006,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         auto_login = auto_login_check();
         directly_login_from_cookie(auto_login);
         auto_set_current_dict(true);
+        audioElement = document.createElement('audio');
         
         //width = $(document).width() - $("#bottom_left_text").width() - 200;
         //$("#bottom_left_text").attr("style","color:white;padding-right:"+ width +"px;");
@@ -1291,12 +1368,72 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     });
 
 
+    $('#directly_translate_btn').on("click",function(){
+        var user_input_val = $("#directly_add_input").val().trim();
+        if(!user_input_val){
+            return;
+        }
+        
+        var result = split_chinese_english(user_input_val);
+        //translate api here
+        $("#wordTranslateModal").modal("show");
+        var meaning_str = "";
+        $("#word_in_search").html(result['en']);
+        $("#word_meaning_in_search").html("");
+        $("#word_meaning_in_search").hide();
+        $("#pronounce_p").hide();
+        $("#wordTranslate_ok").hide();
+        promise = get_word_explanation(result['en']).done(function(resp){
+                console.log("word information is fetched!",resp);
+                var word = resp['word'];
+                $("#word_in_search").html(word);
+                var definition_list = resp['defs'];
+                var meaning_str = "";
+                var meaning = "";
+                $.each(definition_list,function(index,content){
+                    var pos = content['pos'];
+                    var def = content['def'];
+                    meaning += (pos+""+def+";");
+                    meaning_str += ("<span style='color:gray;margin-right:5px;'>["+pos+"]</span>" + def + "<br/>");
+               });
+                $("#word_meaning_in_search").html(meaning_str);
+                var pronunciation_dict = resp['pronunciation'];
+                var ame_src = pronunciation_dict['AmEmp3'];
+                var bre_src = pronunciation_dict['BrEmp3'];
+                //ame
+                var html_ame = "<span style='font-size:12px;color:gray'>AmE</span><span onclick='play_sound(\"" + ame_src +"\")' style='margin-right:5px;font-size:14px'>&lt;" + pronunciation_dict['AmE'] + "&gt;</span>"
+                var html_bre = "<span style='font-size:12px;color:gray'>BrE</span><span onclick='play_sound(\""+ bre_src +"\")' style='font-size:14px'>&lt;" + pronunciation_dict['BrE'] + "&gt;</span>";
+                
+                $("#pronounce_p").html(html_ame + html_bre);
+            
+                $("#word_meaning_in_search").fadeIn("slow");
+                $("#pronounce_p").fadeIn("slow");
+            
+                $("#wordTranslate_ok").fadeIn("slow");
+                $("#wordTranslate_ok").on("click",function(){
+                    save_word(word,meaning);
+                });
+                //var pronunciation_dict['AmE']
+            }).fail(function(err){
+                console.log("word info err",err);
+                meaning = '未提供解释'; //TODO
+            });
+    })
+
+    
+
+
+    
+
+
     focus_current_ans_input = function(){
         console.log('focus on',current_selected_ans_input_index);
         $('.ans_input').get(current_selected_ans_input_index).focus();
         var id = $($('.ans_input').get(current_selected_ans_input_index)).attr('id');
         $('#practice').scrollTo('#'+id);
     }
+    
+    
 
      $('body').keyup(function(e) {
         var code = e.keyCode || e.which;
@@ -1356,6 +1493,9 @@ lean_cloud_delete = function(delete_class,delete_id,data){
          
          
  });
+
+
+
 
    
 
