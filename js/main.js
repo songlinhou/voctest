@@ -244,6 +244,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         var content = $("#directly_add_input").val();
         var data = split_chinese_english(content);
         console.log(data);
+        $("#directly_add_input").val("");
         return data;
     }
     
@@ -1032,7 +1033,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         var data = directly_add_word();
         $("#top_nav").collapse("hide");
         save_word(data['en'],data['cn']); //using cookie
-        
+        $("#directly_add_input").val("");
     });
     
     $("#menu_btn").on("click",function(){
@@ -1418,6 +1419,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
                 console.log("word info err",err);
                 meaning = '未提供解释'; //TODO
             });
+        $("#directly_add_input").val("");
     })
 
     
@@ -1437,9 +1439,21 @@ lean_cloud_delete = function(delete_class,delete_id,data){
 
      $('body').keyup(function(e) {
         var code = e.keyCode || e.which;
-        console.log('keyup=',code);
+        //console.log('keyup=',code);
         var length_of_input = $('.ans_input').length;
          console.log('length_of_input=',length_of_input);
+         if(code == 13){
+             if($("#menu").is(":visible")){
+             //quick search
+                 if($("#directly_add_input").val().trim())
+                 {
+                    $('#directly_translate_btn').click();
+                 }
+                 else{
+                    $("#directly_add_input").focus(); 
+                 }
+             }
+         }
          if(length_of_input !=0)
              {
                  if( e.ctrlKey && ( e.which === 13 ) ){
