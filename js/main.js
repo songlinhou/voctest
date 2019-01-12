@@ -12,6 +12,9 @@ practice_request_success = false;
 from_user_list = false;
 current_selected_ans_input_index = 0;
 audioElement = undefined;
+cached_response = {
+    practice:[]
+};
 
     
     
@@ -261,7 +264,8 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     }
     
     get_word_explanation = function(word){
-        var url = 'https://voctest--songlinhou.repl.co/meaning?word=' + word;
+        var url = 'https://fastapi--songlinhou.repl.co/meaning?word=' + word; // this is faster
+        //var url = 'https://voctest--songlinhou.repl.co/meaning?word=' + word;
         return $.ajax({
             type: 'POST',
             url: url,
@@ -592,6 +596,11 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         
         //https://vocabcardgame--songlinhou.repl.co/get_word
         practice_rounds ++;
+        /*
+        if(cached_response['practice'].length > 5){
+            return;
+        }
+        */
         try_fetch_word = setInterval(function(){
             $.ajax({
                 type: 'POST',
@@ -900,6 +909,15 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         
         
         try_fetch_word = setInterval(function(){
+        if($(".word_ans").hasClass("d-none")){
+            // we should not update ui now
+            console.log("stopped.try to update ui when user is editing!");
+            console.log("$('#skip_button').removeClass('disabled');");
+            $('#skip_button').removeClass('disabled');
+           clearInterval(try_fetch_word);
+           return;
+        }
+           
         $.ajax({
             type: 'POST',
             url: get_word_fetch_url(6,book_file_name),
@@ -907,10 +925,19 @@ lean_cloud_delete = function(delete_class,delete_id,data){
             jsonp:'callback',
             jsonpCallback:"callback",
             success: function(data){
+                if($(".word_ans").hasClass("d-none")){
+                    // we should not update ui now
+                    console.log("stopped.try to update ui when user is editing!");
+                    console.log("$('#skip_button').removeClass('disabled');");
+                    $('#skip_button').removeClass('disabled');
+                   clearInterval(try_fetch_word);
+                   return;
+                }
                 generate_html_for_data_hash(data,try_fetch_word,false);
                 //$('#finish_btn').removeClass('disabled');
                 console.log("$('#skip_button').removeClass('disabled');");
                 $('#skip_button').removeClass('disabled');
+                clearInterval(try_fetch_word);
             },
             error:function(err){
                 console.log('error',err);
