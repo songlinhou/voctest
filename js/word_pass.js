@@ -72,7 +72,7 @@ random_sort = function(thing){
 
 
 get_list_word_url = function(fromId,toId){
-    return "http://voctest--songlinhou.repl.co/get_uncor_unit?from=" + fromId + "&to=" + toId;
+    return "https://voctest--songlinhou.repl.co/get_uncor_unit?from=" + fromId + "&to=" + toId;
 }
 
 get_unit_word_url = function(unitID){
