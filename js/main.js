@@ -1114,7 +1114,8 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         show_learning_nav_bar();
         remote_call('show_unit_pass_menu');
         update_learning_nav_status("All Units",false,false,true);
-        $('#practice_iframe').show();
+        $('#practice_iframe').removeClass('d-none');
+        $('#practice_iframe').css('display','');
     });
     
     $("#practiceModal").on("hidden.bs.modal", function () {
