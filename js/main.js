@@ -1021,9 +1021,11 @@ lean_cloud_delete = function(delete_class,delete_id,data){
     
     document_ready = function(){
         console.log("ready");
+        init_remote_call();
         pre_initialize_repl_server();
         $("#game").hide();
         $("#practice").hide();
+        $("#word_pass").hide();
         $("#bottom_nav").hide();
         //$('#user_dict').addClass('d-none');
         $('#user_dict').hide();
@@ -1031,10 +1033,16 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         $("#dict_nav").hide();
         $("#user_label").hide();
         $("#login_error").hide();
+        $("#learning_nav").hide();
         auto_login = auto_login_check();
         directly_login_from_cookie(auto_login);
         auto_set_current_dict(true);
         audioElement = document.createElement('audio');
+        
+        // learning nav
+        $("#learning_nav_left_text").html("");
+        $("#learning_nav_btn1").hide();
+        $("#learning_nav_btn2").hide();
         
         //width = $(document).width() - $("#bottom_left_text").width() - 200;
         //$("#bottom_left_text").attr("style","color:white;padding-right:"+ width +"px;");
@@ -1070,6 +1078,8 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         
         show_index();
     });
+
+    
     
     
     $("#startNewGame").on("click",function(){
@@ -1083,6 +1093,24 @@ lean_cloud_delete = function(delete_class,delete_id,data){
    $("#newPractice").on("click",function(){
         var chosen_book_file = Cookies.get('chosen_book_file');
         first_time_show_word_list(chosen_book_file);
+    });
+
+    $("#startWordPass").on("click",function(){
+        $('.pageview').hide();
+        $("#word_pass").fadeIn("slow");
+        //dynamically transfer data
+        $('#word_pass iframe').contents().find("#pass_unit_1 input").val("some value dynamic");
+        $('#word_pass iframe').contents().find("#unit_pass_train").hide();
+        $('#word_pass iframe').contents().find("#meaning_questions").hide();
+        $('#word_pass iframe').contents().find("#unit_pass_menu").show("slow");
+        $('#word_pass iframe').contents().find("#pass_question").hide();
+        $('#word_pass iframe').contents().find("#learning_list_summary").hide();
+        $('#word_pass iframe').contents().find("#unit_pass_menu").hide();
+        
+        console.log("startWordPass");
+        show_learning_nav_bar();
+        remote_call('show_unit_pass_menu');
+        update_learning_nav_status("All Units",false,false,true);
     });
     
     $("#practiceModal").on("hidden.bs.modal", function () {
@@ -1466,9 +1494,10 @@ lean_cloud_delete = function(delete_class,delete_id,data){
 
      $('body').keyup(function(e) {
         var code = e.keyCode || e.which;
-        //console.log('keyup=',code);
+        console.log('keyup=',e.keyCode,e.key);
         var length_of_input = $('.ans_input').length;
          console.log('length_of_input=',length_of_input);
+         
          if(code == 13){
              if($("#menu").is(":visible")){
              //quick search
@@ -1535,6 +1564,91 @@ lean_cloud_delete = function(delete_class,delete_id,data){
          
  });
 
+// accross files
+update_learning_nav_status = function(text,btn_visible,btn1_active,btn2_active){
+    var status = {};
+    status['text'] = text;
+    status['btn_visible'] = btn_visible;
+    status['btn1_active'] = btn1_active;
+    status['btn2_active'] = btn2_active;
+    Cookies.set("learn_nav_status",status);
+}
+
+
+$('#learning_nav_btn1').on('click',function(){
+    if($('#learning_nav_btn1').hasClass('disabled')){
+        return;
+    }
+    console.log('learning_nav_btn1 clicked');
+    
+});
+
+$('#learning_nav_btn2').on('click',function(){
+    if($('#learning_nav_btn2').hasClass('disabled')){
+        return;
+    }
+    console.log('learning_nav_btn2 clicked');
+    remote_call('go_to_next_learning_word');
+});
+
+
+
+
+show_learning_nav_bar = function(){
+    /*
+        learn_nav_status JSON:
+        {
+            'text':string,
+            'btn_visible':boolean,
+            'btn1_active':boolean,
+            'btn2_active':boolean
+        }
+    
+    */
+    console.log("invoke show_learning_nav_bar");
+    $("#learning_nav").show();
+    loop_check_nav_status = setInterval(function(){
+        const nav_status = JSON.parse(Cookies.get("learn_nav_status"));
+        const text = nav_status['text'];
+        if($("#learning_nav_left_text").html() != text){
+            $("#learning_nav_left_text").html(text);
+        }
+        const btn_visible = nav_status['btn_visible'];
+        if(btn_visible && $("#learning_nav_btn1").is(":hidden")){
+            $("#learning_nav_btn1").show();
+            $("#learning_nav_btn2").show();
+        }
+        else if(!btn_visible && $("#learning_nav_btn1").is(":visible")){
+            $("#learning_nav_btn1").hide();
+            $("#learning_nav_btn2").hide();
+        }
+        const btn1_active = nav_status['btn1_active'];
+        const btn2_active = nav_status['btn2_active'];
+        if(btn1_active && $('#learning_nav_btn1').attr('disabled')){
+            $('#learning_nav_btn1').removeAttr('disabled');
+            $('#learning_nav_btn1').removeClass('disabled');
+        }
+        else if(!btn1_active && !$('#learning_nav_btn1').attr('disabled')){
+            $('#learning_nav_btn1').attr('disabled',true);
+            $('#learning_nav_btn1').addClass('disabled');
+        }
+        if(btn2_active && $('#learning_nav_btn2').attr('disabled')){
+            $('#learning_nav_btn2').removeAttr('disabled');
+            $('#learning_nav_btn2').removeClass('disabled');
+        }
+        else if(!btn2_active && !$('#learning_nav_btn2').attr('disabled')){
+            $('#learning_nav_btn2').attr('disabled',true);
+            $('#learning_nav_btn2').addClass('disabled');
+        }
+        
+    },500);
+}
+
+close_learning_nav_bar = function(){
+    console.log("invoke close_learning_nav_bar");
+    $("#learning_nav").hide();
+    clearInterval(loop_check_nav_status);
+}
 
 
 

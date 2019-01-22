@@ -1,0 +1,239 @@
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" >
+ <link rel="stylesheet" href="css/bootstrap.min.css">
+ <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+ 
+ <style>
+.sticky_footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: white;
+   color: white;
+}
+</style>
+ 
+<body id="word_pass_doc_body"> 
+<div  class="container">
+<div class="row">
+    <div class="col-1"></div>
+   <div class="col-sm-12">
+    <div id="unit_pass_train">
+       
+        <div class="card" style="width: 100%;">
+          <div class="card-body">
+            <h5 class="card-title"><span class="fas fa-bookmark" style="color: cornflowerblue;padding-right: 5px;"></span><span id="unit_pass_word" style="font-family: 'Raleway', serif;">Card title</span></h5>
+            <h6 class="card-subtitle mb-2 text-muted" id="unit_pass_pronounce">Card subtitle</h6>
+            <p class="card-text" id="unit_pass_main_exp">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            
+          </div>
+          <div class="card-footer bg-transparent" style="font-size:14px;" id="word_pass_meaning_from_dict">
+            2 days ago
+          </div>
+        </div>
+        
+    </div>
+    </div>
+    <div class="col-1"></div>
+</div>
+
+
+<div class="row" id="pass_question" style="margin-top:100px;">
+    <div class="col-1"></div>
+   <div class="col-sm-12">
+    <div id="pass_question_word" class="lead" style="font-size: 40px;text-align:center;color: #007bff;">
+       ...
+    </div>
+    </div>
+    <div class="col-1"></div>
+</div>
+
+
+
+<div class="row" id="meaning_questions" style="margin-top:100px;">
+    <div class="col-1 col-md-3"></div>
+    <div class="col-sm-12 col-md-6">
+       
+       <ul class="list-group">
+          <li class="list-group-item pass_item d-flex justify-content-between align-items-center"><span id="meaning_1_btn" class="opt_word">Cras justo odio</span><span class="badge badge-pill"><kbd>J</kbd></span></li>
+           <li class="list-group-item pass_item d-flex justify-content-between align-items-center"><span id="meaning_2_btn" class="opt_word">Dapibus ac facilisis in</span><span class="badge badge-pill"><kbd>K</kbd></span></li>
+           <li class="list-group-item pass_item d-flex justify-content-between align-items-center"><span id="meaning_3_btn" class="opt_word">Morbi leo risus</span><span class="badge badge-pill"><kbd>L</kbd></span></li>
+           <li class="list-group-item pass_item d-flex justify-content-between align-items-center"><span id="meaning_4_btn" class="opt_word">Porta ac consectetur ac</span><span class="badge badge-pill"><kbd>;</kbd></span></li>
+        </ul>
+       <!--
+        <button type="button" id="meaning_1_btn" class="btn btn-outline-primary btn-block">Block level button</button>
+        <button type="button" id="meaning_2_btn" class="btn btn-outline-primary btn-block" style="margin-top:20px">Block level button</button>
+        <button type="button" id="meaning_3_btn" class="btn btn-outline-primary btn-block" style="margin-top:20px">Block level button</button>
+        <button type="button" id="meaning_4_btn" class="btn btn-outline-primary btn-block" style="margin-top:20px">Block level button</button>
+        
+        -->
+    </div>
+   <div class="col-1 col-md-3"></div>
+</div>
+
+<div class="container" id="learning_list_summary">
+   <div style="font-size: 20px;margin-bottom: 10px;">单词回顾<span style="font-size: 16px;color: gray;margin-left: 5px;">1-1</span></div>
+    <ul class="list-group" id="learning_list_for_review">
+
+      <li class="list-group-item list-group-item-danger">Cras justo odio</li>
+      <li class="list-group-item list-group-item-danger">Dapibus ac facilisis in</li>
+      <li class="list-group-item list-group-item-danger">Morbi leo risus</li>
+
+      <li class="list-group-item list-group-item-success">Porta ac consectetur ac</li>
+      <li class="list-group-item list-group-item-success">Vestibulum at eros</li>
+    </ul>
+    
+    <div style="height:10rem;"></div>
+</div>
+ 
+ 
+ 
+ 
+  
+ 
+ 
+  
+   
+   <div style="width: 100%; height: 100%; margin: 0; padding: 0;" id="unit_pass_menu">
+    <div class="row">
+        <div class="col-lg-4 .col-sm-12 col-md-6" id="pass_unit_1">
+        <input type="hidden">
+        <div class="card pass_unit" style="margin: 5px;">
+          <img src="static/images/img1.jpeg" class="card-img-top" alt="..." style="height: 200px;">
+          <div class="card-body">
+            <p class="card-text"><i class="fas fa-lock lock_status" style="margin-right: 5px;"></i>第一组单词</p>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>    
+        </div>
+        
+        <div class="col-lg-4 .col-sm-12 col-md-6" id="pass_unit_2">
+        <input type="hidden">
+        <div class="card pass_unit" style="margin: 5px;">
+          <img src="static/images/img2.jpg" class="card-img-top" alt="..." style="height: 200px;">
+          <div class="card-body">
+            <p class="card-text"><i class="fas fa-lock lock_status" style="margin-right: 5px;"></i>第二组单词</p>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>    
+        </div>
+        
+        <div class="col-lg-4 .col-sm-12 col-md-6" id="pass_unit_3">
+        <input type="hidden">
+        <div class="card pass_unit" style="margin: 5px;">
+          <img src="static/images/img3.jpg" class="card-img-top" alt="..." style="height: 200px;">
+          <div class="card-body">
+            <p class="card-text"><i class="fas fa-lock lock_status" style="margin-right: 5px;"></i>第三组单词</p>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>    
+        </div>
+        
+        <div class="col-lg-4 .col-sm-12 col-md-6" id="pass_unit_4">
+        <input type="hidden">
+        <div class="card pass_unit" style="margin: 5px;">
+          <img src="static/images/img4.jpg" class="card-img-top" alt="..." style="height: 200px;">
+          <div class="card-body">
+            <p class="card-text"><i class="fas fa-lock lock_status" style="margin-right: 5px;"></i>第四组单词</p>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>    
+        </div>
+        
+        <div class="col-lg-4 .col-sm-12 col-md-6" id="pass_unit_5">
+        <input type="hidden">
+        <div class="card pass_unit" style="margin: 5px;" >
+          <img src="static/images/img5.jpg" class="card-img-top" alt="..." style="height: 200px;">
+          <div class="card-body">
+            <p class="card-text"><i class="fas fa-lock lock_status" style="margin-right: 5px;"></i>第五组单词</p>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>    
+        </div>
+        
+        <div class="col-lg-4 .col-sm-12 col-md-6" id="pass_unit_6">
+        <input type="hidden">
+        <div class="card pass_unit" style="margin: 5px;" >
+          <img src="static/images/img6.jpeg" class="card-img-top" alt="..." style="height: 200px;">
+          <div class="card-body">
+            <p class="card-text"><i class="fas fa-lock lock_status" style="margin-right: 5px;"></i>第六组单词</p>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>    
+        </div>
+        
+        <div class="col-lg-4 .col-sm-12 col-md-6" id="pass_unit_7">
+        <input type="hidden">
+        <div class="card pass_unit" style="margin: 5px;">
+          <img src="static/images/img7.jpeg" class="card-img-top" alt="..." style="height: 200px;">
+          <div class="card-body">
+            <p class="card-text"><i class="fas fa-lock lock_status" style="margin-right: 5px;"></i>第七组单词</p>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>    
+        </div>
+        
+        <div class="col-lg-4 .col-sm-12 col-md-6" id="pass_unit_8">
+        <input type="hidden">
+        <div class="card pass_unit" style="margin: 5px;" >
+          <img src="static/images/img8.jpg" class="card-img-top" alt="..." style="height: 200px;">
+          <div class="card-body">
+            <p class="card-text"><i class="fas fa-lock lock_status" style="margin-right: 5px;"></i>第八组单词</p>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>    
+        </div>
+        
+        <div class="col-lg-4 .col-sm-12 col-md-6" id="pass_unit_9">
+        <input type="hidden">
+        <div class="card pass_unit" style="margin: 5px;">
+          <img src="static/images/img9.jpg" class="card-img-top" alt="..." style="height: 200px;">
+          <div class="card-body">
+            <p class="card-text"><i class="fas fa-lock lock_status" style="margin-right: 5px;"></i>第九组单词</p>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>    
+        </div>
+        
+    </div>
+    
+    <div style="height: 10rem;"></div>
+    
+    
+    
+    </div>
+</div>
+    <script src="js/libs/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/libs/jquery.touchSwipe.min.js"></script>
+    <script src="js/libs/jquery-animation.js"></script>
+    <script src="js/libs/js.cookie.min.js"></script>
+    
+    <script src="js/remote_call.js"></script>
+    <script src="js/word_pass.js"></script>
+    <script>
+        $('document').ready(function(){
+            on_word_pass_ready();
+        });
+        
+    </script>
+    
+</body>

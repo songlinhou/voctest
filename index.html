@@ -7,21 +7,17 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>🌈爱背单词</title>
+    <title>🌈我的单词本</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" >
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     
     <script src="js/libs/js.cookie.min.js"></script>
     
     <!-- wilddog sections -->
-    
-
-
-
     
 
     <!-- Custom styles for this template -->
@@ -44,7 +40,7 @@
   
    
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="#"><i class="fab fa-adn" style="margin-right: 10px;"></i>爱背单词</a>
+        <a class="navbar-brand" href="#"><i class="fab fa-adn" style="margin-right: 10px;"></i>我的单词本</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#top_nav" aria-controls="top_nav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -117,6 +113,25 @@
     </nav>
     
     
+    
+    
+    
+    <nav id="learning_nav" class="navbar navbar-expand-md navbar-dark bg-dark fixed-bottom nav-right pageview">
+        <div style="color: white;padding-right: 20px;" id="learning_nav_left_text">
+    Unit 1 - List 1
+  </div>
+       <div >
+       <button type="button" class="btn btn-outline-primary" id="learning_nav_btn1">上一个(J)</button>
+      
+      <button type="button" class="btn btn-primary" id="learning_nav_btn2">下一个(K)</button>
+       
+       </div>
+        
+    </nav>
+    
+   
+    
+    
 <div id="alert_div"></div>
         
 
@@ -128,8 +143,8 @@
     <div  class="container">
         <div id="menu" class="pageview">
         <div class="starter-template">
-            <h1>欢迎您</h1>
-            <p class="lead">想要自定义词库？和朋友一起玩单词游戏？<br> <span class="second">快用爱背单词</span></p>
+            <h2>欢迎您</h2>
+            <p class="lead" style="font-size:16px;">民主式设计，满足您全方位需求的全能词本<br> <span class="second">开源，开放，无任何限制</span></p>
             <div id="selected_word_list_menu_btn">
                 <i class="fas fa-book"></i><span style="margin-left: 5px;" id="current_book_name">GRE 3000</span> <span style="color: gray;font-size: 14px;">(选择词书)</span>
                </div>
@@ -145,12 +160,45 @@
             <button type="button" class="btn btn-primary btn-block" id="loginWindowBtn">登录或注册</button>
             </div>
             </div>
-           <div class="col col-md-4 col-sm-12 col-12">
+            
+
+            
+            <div class="col col-md-4 col-sm-12 col-12 btn-group">
             <div class="input-group mb-3 ">
-            <button type="button" class="btn btn-info btn-block" id="newPractice">单词词义默写</button>
+            <button type="button" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">生词学习</button>
+            <div class="dropdown-menu">
+            <a class="dropdown-item" id="startWordPass">单词闯关</a>
+            <a class="dropdown-item" data-toggle="modal" data-target="#newGame">单词浏览</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">更多</a>
+          </div>
             </div>
             </div>
             
+            
+            <div class="col col-md-4 col-sm-12 col-12 btn-group">
+            <div class="input-group mb-3 ">
+            <button type="button" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">单词练习</button>
+            <div class="dropdown-menu">
+            <a class="dropdown-item" id="newPractice">词义默写</a>
+            <a class="dropdown-item" data-toggle="modal" data-target="#newGame">选项练习</a>
+            <a class="dropdown-item" data-toggle="modal" data-target="#newGame">Flash卡</a>
+            <a class="dropdown-item" data-toggle="modal" data-target="#newGame">多人练习</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">更多</a>
+          </div>
+            </div>
+            </div>
+            
+            
+            
+           <div class="col col-md-4 col-sm-12 col-12">
+            <div class="input-group mb-3 ">
+            <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#newGame">单词游戏</button>
+            </div>
+            </div>
+            
+            <!--
         <div class="col col-md-4 col-sm-12 col-12">
             <div class="input-group mb-3 ">
             <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#newGame">单词选项练习</button>
@@ -162,7 +210,7 @@
             <button type="button" class="btn btn-outline-success btn-block" data-toggle="modal" data-target="#newGame">多人单词房</button>
             </div>
             </div>
-            
+            -->
         
         
         <!--
@@ -375,6 +423,7 @@
 
 <!-- multiplayer end --> 
    
+
    
    
    
@@ -574,7 +623,9 @@
     </div>
     
 
-    
+    <div id="word_pass" class="pageview" style="height: 100%;">
+      <iframe src="word_pass_index.html" width="100%" height="100%" frameBorder="0" style="position: relative; height: 700px; width: 100%; overflow:hidden;">Browser not compatible.</iframe>
+</div>
 
     
     
@@ -585,13 +636,16 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="js/libs/jquery-3.3.1.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
     
+    <script src="js/remote_call.js"></script>
+    
     <script src="js/main.js"></script>
+    
 
     <script>
         $(document).ready(function(){
