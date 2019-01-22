@@ -984,6 +984,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
             $("#top_nav").removeClass("show");
         }
         */
+        $('#practice_iframe').hide();
     }
     
     auto_login_check = function(){
@@ -1034,10 +1035,12 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         $("#user_label").hide();
         $("#login_error").hide();
         $("#learning_nav").hide();
+        $('#practice_iframe').hide();
         auto_login = auto_login_check();
         directly_login_from_cookie(auto_login);
         auto_set_current_dict(true);
         audioElement = document.createElement('audio');
+        
         
         // learning nav
         $("#learning_nav_left_text").html("");
@@ -1111,6 +1114,7 @@ lean_cloud_delete = function(delete_class,delete_id,data){
         show_learning_nav_bar();
         remote_call('show_unit_pass_menu');
         update_learning_nav_status("All Units",false,false,true);
+        $('#practice_iframe').show();
     });
     
     $("#practiceModal").on("hidden.bs.modal", function () {
