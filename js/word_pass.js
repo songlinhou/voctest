@@ -16,6 +16,8 @@ user_quiz_error = {};
 correct_word_in_list = [];
 word_in_progress = '';
 last_record_mistake_word = '';
+view_history_card = false;
+list_index_in_history_card = 0;
 
 setup_audio = function(src){
     audioElement = document.createElement('audio');
@@ -177,7 +179,7 @@ populate_dict_data = function(word,show_meaning=true){
     $("#word_pass_meaning_from_dict").hide();
     get_word_explanation(word).done(function(resp){
                 console.log("word information is fetched!",resp);
-                var word = resp['word'];
+                var resp_word = resp['word'];
                 var definition_list = resp['defs'];
                 var meaning_str = "";
                 var meaning = "";
@@ -187,6 +189,10 @@ populate_dict_data = function(word,show_meaning=true){
                     meaning += (pos+""+def+";");
                     meaning_str += ("<span style='color:gray;margin-right:5px;'>["+pos+"]</span>" + def + "<br/>");
                });
+                if($('#unit_pass_word').html().toLowerCase() != resp_word.toLowerCase()){
+                    console.log(`get meaning from ${resp_word} but current word is ${$('#unit_pass_word').html().toLowerCase()}`);
+                    return;
+                }
                 $("#word_pass_meaning_from_dict").html(meaning_str);
                 var pronunciation_dict = resp['pronunciation'];
                 var ame_src = pronunciation_dict['AmEmp3'];
@@ -270,19 +276,34 @@ show_list_summary = function(){
     //$('#learning_list_summary').fadeIn('slow');
     update_learning_nav_status("summary",true,false,true);
     
+    
 }
 
 update_unit_learning_status = function(bookname,unit_num,list_num_in_unit){
-    let data = {};
+    let data = Cookies.get('unit_learning_status');
+    if(data == undefined)
+    {
+        data = {};
+    }
+    else{
+        data = JSON.parse(data);
+    }
     if(bookname){
         data['current_book'] = bookname;
     }
     else{
         data['current_book'] = 'SYS:GRE3000';
     }
-    data['current_unit'] = unit_num;
-    data['current_list'] = list_num_in_unit;
+    if(unit_num != undefined)
+    {
+        data['current_unit'] = unit_num;
+    }
+    if(list_num_in_unit != undefined)
+    {
+        data['current_list'] = list_num_in_unit;
+    }
     Cookies.set('unit_learning_status',data);
+    return data;
 }
 
 show_unit_pass_menu = function(){
@@ -317,7 +338,18 @@ show_unit_pass_menu = function(){
     let data = JSON.parse(Cookies.get('unit_learning_status'));
     //change ui
     let current_unit = data['current_unit'];//starts from 1
+    if(current_unit == undefined || current_unit <1)
+    {
+        current_unit = 1;
+        data  = update_unit_learning_status('',current_unit,undefined);
+    }
     let current_list = data['current_list'];
+    if(current_list == undefined){
+        current_list = 0;
+        data = update_unit_learning_status('',undefined,current_list);
+        
+    }
+    console.log('current_list',current_list);
     let unit_total_number = $('.pass_unit').length;
     for(let i=0;i<unit_total_number;i++){
         let unit_id = i+1;
@@ -353,18 +385,43 @@ show_unit_pass_menu = function(){
 }
 
 
+get_list_index_in_unit = function(unit_learning_status){
+    if(view_history_card){
+        return list_index_in_history_card;
+    }
+    else{
+        return unit_learning_status['current_list'];
+    }
+}
+
+
 show_pass_training = function(){
     
     
     let unit_learning_status = JSON.parse(Cookies.get('unit_learning_status'));
     if(users_latest_unit > unit_learning_status['current_unit']){
         // you cannot access that
+        console.log('users_latest_unit',users_latest_unit);
+        console.log('unit_learning_status[current_unit]',unit_learning_status['current_unit']);
         console.log("cannot access");
         return;
     }
+    else if(users_latest_unit == unit_learning_status['current_unit']){
+        console.log('view current unit');
+        view_history_card = false;
+    }
+    else{
+        console.log('view history history');
+        view_history_card = true;
+    }
+    
     
     var during = Cookies.get("during");
-    let list_index_in_unit = parseInt(Cookies.get("list_index_in_unit")); // list index in current unit
+    //let list_index_in_unit = parseInt(Cookies.get("list_index_in_unit")); // list index in current unit
+    
+    //let list_index_in_unit = unit_learning_status['current_list'];
+    let list_index_in_unit = get_list_index_in_unit(unit_learning_status);
+    console.log('list_index_in_unit',list_index_in_unit);
     $("#word_pass_meaning_from_dict").hide();
     $("#meaning_questions").hide();
     $("#pass_question").hide();
@@ -381,11 +438,11 @@ show_pass_training = function(){
         console.log("this unit is completed");
         //let book_used = Cookies.get('chosen_book_file');
         let book_used = 'SYS:GRE3000';
-        update_unit_learning_status(book_used,users_latest_unit+1,0);
+        update_unit_learning_status('',users_latest_unit+1,0);
         // show unit selection view
         //$('#unit_pass_menu').fadeIn('slow');
         show_unit_pass_menu();
-        Cookies.set("list_index_in_unit",0);
+        //Cookies.set("list_index_in_unit",0);
         
         return;
     }
@@ -408,6 +465,7 @@ show_pass_training = function(){
             all_meanings = get_all_meanings();
         }
         var first_word_list = get_training_data_for_one_list(list_index_in_unit); //first_word_list = words:[{},{},{}],quiz:[{},{}]
+        console.log('first_word_list',first_word_list);
         var first_word = (Object.keys(first_word_list["words"][word_id]))[current_unit_id];
         var first_meaning = first_word_list["words"][word_id][first_word];
         console.log("first_word_list['words']["+word_id+"]=",first_word_list["words"][word_id]);
@@ -418,7 +476,9 @@ show_pass_training = function(){
         $("#unit_pass_word").html(first_word);
         $("#unit_pass_main_exp").html(first_meaning);
         //$('#unit_pass_train').animateCss('fadeInRight');
-
+        if( $("#unit_pass_main_exp").is(':hidden') ){
+            $("#unit_pass_main_exp").show();
+        }
         $("#unit_pass_train").fadeIn("slow");
         $("#word_pass_meaning_from_dict").fadeIn("slow");
 
@@ -595,13 +655,30 @@ go_to_next_learning_word = function(){
 
 
 get_next_word_list_in_current_unit = function(){
-    let list_index_in_unit = parseInt(Cookies.get("list_index_in_unit"));
+
+    let unit_learning_status = JSON.parse(Cookies.get('unit_learning_status'));
+    if(view_history_card){
+        list_index_in_history_card ++;
+        if(list_index_in_history_card < training_data['word_list'].length){
+            console.log('[history card]update list index to',list_index_in_history_card);
+        }
+        else{
+            list_index_in_history_card = -1;
+            console.log('[history card]update list index to',-1);
+        }
+        return;
+    }
+    let list_index_in_unit = unit_learning_status['current_list'];
     list_index_in_unit ++;
     if(list_index_in_unit < training_data['word_list'].length){//<5
-        Cookies.set("list_index_in_unit",list_index_in_unit);
+        update_unit_learning_status('',undefined,list_index_in_unit);
+        console.log('update list index to',list_index_in_unit);
+        //Cookies.set("list_index_in_unit",list_index_in_unit);
     }
     else{
-        Cookies.set("list_index_in_unit",-1);
+        update_unit_learning_status('',undefined,-1);
+        console.log('update list index to',-1);
+        //Cookies.set("list_index_in_unit",-1);
     }
 }
 
@@ -638,6 +715,7 @@ on_word_pass_ready = function(){
 
 $(".pass_unit").on("click",function(event){
     console.log("clicked",event.target);
+    list_index_in_history_card = 0;
     training_data = undefined;
     let chosen_unit = $(event.target).parent().closest(".col-lg-4").attr("id");
     chosen_unit = parseInt(chosen_unit.replace("pass_unit_",""));
@@ -795,10 +873,12 @@ $('#word_pass_doc_body').keyup(function(e) {
 
 
 save_current_unit_progress = function(){
+    /*
     let book_used = 'SYS:GRE3000';
     let list_index_in_unit = JSON.parse(Cookies.get("list_index_in_unit"));
     update_unit_learning_status(book_used,users_latest_unit,list_index_in_unit);
     console.log('progress saved locally');
+    */
 }
 
 
